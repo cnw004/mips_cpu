@@ -2,23 +2,23 @@
 module to act as our clk for the fetch stage
 
 inputs:
-  - in1: our program counter
   - enable: wire from hazard unit. decides if we should stall or not (passing in not stall)
+  - in1: our program counter
 
 output:
-  - out1: our program counter, released after falling clk edge
+  - out1: our program counter, released after rising clk edge
 */
 
-module clk_f(
+module reg_f(
   input wire clk,
   input wire enable,
   input wire [31:0] in1,
   output reg [31:0] out1);
 
   //if negedge clk, pass value through
-  always @(negedge clk) begin
+  always @(posedge clk) begin
     if(enable)
-      out1 = in1;
+      out1 <= in1;
   end
 
 endmodule
