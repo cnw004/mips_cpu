@@ -5,6 +5,7 @@
 simple module to act as our registers
 
 inputs:
+  - jal: flag to indicate that a jal instruction is occuring.
   - reg_write: 1 or 0, decides if we are to write_reg
   - reg1: first register to work with
   - reg2: second register to work with
@@ -18,7 +19,8 @@ outputs:
   - a0: the value in register a0 to be used by syscall module
 */
 
-module registers(input wire clk,
+module registers(input wire clk, //assume passing in negation of the rest of the clock.
+  input wire jal,
   input wire reg_write,
   input wire [25:21] reg1,
   input wire [20:16] reg2,
@@ -40,25 +42,31 @@ module registers(input wire clk,
     a0 = 32'd0;
     v0 = 32'd0;
     for(i = 0; i < 32; i = i + 1) begin
-      reg_mem[i] = 32'd0;
+      reg_mem[i] = 32'd0; //set all values to 0 initially
     end
   end
 
-  always @(*) begin
-    //when clk is one, write
-    if(clk) begin
-      if(reg_write == 1) begin
-        reg_mem[write_reg] = write_data;
+  always @(posedge clk) begin
+    //when clk is positive, read
+    read1 = reg_mem[reg1];
+    read2 = reg_mem[reg2];
+    v0 = reg_mem[`v0];
+    a0 = reg_mem[`a0];
+    end
+
+//TODO: Not sure if jal should be written to if reg_write is not set to 1
+  always @(negedge clk) begin
+    //when clk is negative, write.
+
+      //write to $ra when jal flag is 1
+      if(jal == 1) begin
+        reg_mem[31] = write_data; //31 is $ra
+      end
+      //otherwise, check if reg_write is activated and write to it.
+      else begin
+        if(reg_write == 1) begin
+          reg_mem[write_reg] = write_data;
         end
-    end
-
-    //when clk is 0, read
-    else begin
-      read1 = reg_mem[reg1];
-      read2 = reg_mem[reg2];
-      v0 = reg_mem[`v0];
-      a0 = reg_mem[`a0];
-    end
+      end
   end
-
 endmodule

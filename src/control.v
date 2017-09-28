@@ -25,6 +25,8 @@ module control(
   input wire [5:0] funcCode,
   output reg regDst,
   output reg jump,
+  output reg jal,
+  output reg jumpRegister,
   output reg branch,
   output reg memRead,
   output reg memToReg,
@@ -37,52 +39,77 @@ module control(
   always @ ( * ) begin
 
     //regDst
-    regDst = (opcode == 0) ? 1 : 0;
+    regDst = (opcode == `SPECIAL); //any R-Type instruction
 
     //jump
     jump = (opcode == `J || opcode == `JAL) ? 1 : 0;
+
+    //jumpAndLink
+    jal = (opcode == `JAL) ? 1 : 0;
+
+    //jump - register
+    jumpRegister = (opcode == `JR);
 
     //branch
     branch = (opcode == `BEQ || opcode == `BNE) ? 1 : 0;
 
     //memRead
-    memRead = (opcode == 6'h23) ? 1 : 0;
+    memRead = (opcode == `LW);
 
     //memToReg
-    memToReg = (opcode == 6'h23) ? 1 : 0;
+    memToReg = (opcode == `LW);
 
     //memWrite
-    memWrite = (opcode == 6'h2b) ? 1 : 0;
+    memWrite = (opcode == `SW);
 
     //aluSrc
-    aluSrc = (opcode == 8 || opcode == 6'hd || opcode == 6'h23 || opcode == 6'h2b || opcode == 9) ? 1 : 0;
+    aluSrc = (opcode == `ADDI ||
+             opcode == `ADDIU ||
+              opcode == `ORI  ||
+              opcode == `LW   ||
+              opcode == `SW);
 
     //regWrite
-    regWrite = (opcode == 0 || opcode == 8 || opcode == 6'hd || opcode == 6'h23 || opcode == 9) ? 1 : 0;
+    regWrite = (opcode == `SPECIAL || //any R-Type
+                opcode == `ADDI ||
+                opcode == `ADDIU ||
+                opcode == `ORI ||
+                opcode == `LW);
 
     //syscall
     syscall = ( opcode == 0 && funcCode == 6'hc ) ? 1 : 0;
 
-    //R typ instructions
-    if (opcode == 0)
-      case (funcCode)
-        6'h20: aluOp = 3'b010;
-        6'h22: aluOp = 3'b110;
-        6'h24: aluOp = 3'b000;
-        6'h25: aluOp = 3'b001;
-        6'h2a: aluOp = 3'b111;
-        default: aluOp = 3'b000;
-      endcase
+    // //R typ instructions
+    // if (opcode == 0)
+    //   case (funcCode)
+    //     6'h20: aluOp = 3'b010;
+    //     6'h22: aluOp = 3'b110;
+    //     6'h24: aluOp = 3'b000;
+    //     6'h25: aluOp = 3'b001;
+    //     6'h2a: aluOp = 3'b111;
+    //     default: aluOp = 3'b000;
+    //   endcase
+    //
+    // else
+    //   case (opcode)
+    //     6'h09: aluOp = 3'b010;
+    //     6'h0d: aluOp = 3'b001;
+    //     6'h23 || 6'h2b: aluOp = 3'b010;
+    //     6'h04 || 6'h05: aluOp = 3'b110;
+    //     default: aluOp = 3'b000;
+    //   endcase
 
+    //Logic for ALUop output
+    if (opcode == `SPECIAL && funcCode == `AND)
+        aluOp = `ALU_AND;
+    else if((opcode == `SPECIAL && funcCode == `OR) || opcode == `ORI)
+        aluOp = `ALU_OR;
+    else if((opcode == `SPECIAL && funcCode == `ADD) || opcode == `ADDI || opcode == `ADDIU || opcode == `LW || opcode == `SW)
+        aluOp = `ALU_add;
+    else if((opcode == `SPECIAL && funcCode == `SUB) || opcode == `BEQ || opcode == `BNE)
+        aluOp = `ALU_sub;
     else
-      case (opcode)
-        6'h09: aluOp = 3'b010;
-        6'h0d: aluOp = 3'b001;
-        6'h23 || 6'h2b: aluOp = 3'b010;
-        6'h04 || 6'h05: aluOp = 3'b110;
-        default: aluOp = 3'b000;
-      endcase
-
+        aluOp = `ALU_slt; //default case
   end
 
 endmodule
