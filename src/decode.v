@@ -25,13 +25,13 @@
  
  
  modules included:
-   registers.v //TODO
+   registers.v 
    sign_extend.v
    control.v
    adder.v
    mux.v (x2)
    and_gate.v 
-   equal_d.v // TODO
+   equals.v
  
  
 */
@@ -47,10 +47,8 @@ module decode(
       // TO DO: this
 
    //instantiating and wiring together modules
-
-       // TO DO: hook up registers.v, hook up equal_d.v
        // TO DO: this
-   registers regs(clk, );
+   registers regs(clk, ); // still need regwrite control signal or no? 
    
    
     
