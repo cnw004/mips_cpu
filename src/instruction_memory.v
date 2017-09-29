@@ -2,7 +2,7 @@
 module to act as instruction memory and set up instruction reads
 
 inputs:
-  - addr: the address read in from add_test.v
+  - addr: the address read in from reg_f.v
 
 outputs:
   - instruction: instruction to be executed
