@@ -1,14 +1,12 @@
-`include "mips.h" // various defines
-
 /*
  This module wires together everything in the fetch stage.
  inputs:
-   pc - output of the pc-deciding multiplexor
-   enable - value of not stallF control signal from the hazard unit
-   clk - The clock
+   pc: output of the pc-deciding multiplexor
+   enable: value of not stallF control signal from the hazard unit
+   clk:  The clock
  outputs:
-   instr- The instruction read from memory - should get wired into reg_d.v
-   pc_plus_4 - The PC incremented by 4 (next pc count) - should get wired into the pc generating mux, as well as another adder
+   instr: The instruction read from memory - should get wired into reg_d.v
+   pc_plus_4:  The PC incremented by 4 (next pc count) - should get wired into the pc generating mux, as well as another adder
  
  modules included:
    adder.v
