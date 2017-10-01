@@ -42,7 +42,7 @@ module control(
     regDst = (opcode == `SPECIAL); //any R-Type instruction
 
     //jump
-    jump = (opcode == `J || opcode == `JAL) ? 1 : 0;
+    jump = (opcode == `J || opcode == `JAL || opcode == `JR) ? 1 : 0;
 
     //jumpAndLink
     jal = (opcode == `JAL) ? 1 : 0;
