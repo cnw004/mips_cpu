@@ -89,6 +89,8 @@ always @(posedge clk) begin
   //logic to handle stalling
   StallF <= ~(branchStall || lwStall); //inverted to handle the not gate (see drawing)
   StallD <= ~(branchStall || lwStall); //inverted to handle the not gate (see drawing)
+
+  //only happens when we stall, ensures we dont push "bogus information" through the pipeline
   FlushE <= (branchStall || lwStall);
 
 
