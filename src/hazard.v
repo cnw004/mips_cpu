@@ -4,11 +4,29 @@
 parameterized 3 input mux module
 
 inputs:
-  - ctrl: decides which input to pass to out
-  -
+  - clk: the clk for our system
+  - branchD: 1 bit letting us know if a branch is taken in Decode stage
+  - RsD: register Rs in stage D
+  - RtD: register Rt in stage D
+  - RsE: register Rs in stage E
+  - RtE: register Rt in stage E
+  - MemToRegE: 1 bit, are we pulling out of mem to a reg in stage E?
+  - RegWriteE: 1 bit, are we writing to a reg in E?
+  - WriteRegE: the register to be written to in the E stage instr
+  - WriteRegM: the register to be written to in the M stage instr
+  - MemToRegM: 1 bit, are we pulling out of mem to a reg in stage M?
+  - RegWriteM: 1 bit, are we writing to a reg in stage M?
+  - WriteRegW: the register to be written to in the W stage instr
+  - RegWriteW: 1 bit, are we writing to a reg in stage W instr?
 
 outputs:
-  - out: either input_00, input_01, input_10 depending on ctrl
+  - StallF: do we need to stall in stage F?
+  - StallD: do we need to stall in stage D?
+  - ForwardAD: E->D forward from register Rs
+  - ForwardBD: E->D forward from register Rt
+  - FlushE: Do we need to flush the E stage?
+  - ForwardAE: M->E & E->E forward for register Rs
+  - ForwardBE: M->E & E->E forward for register Rt
 */
 module mux3(
   input wire clk,
@@ -57,17 +75,21 @@ always @(posedge clk) begin
 
 
   //this is for M->E and E->E for the Rt register
-  if((RtE != `zero) && (RtE == WriteRegM) && RegWriteM)
+  if((RtE != `zero) && (RtE == WriteRegM) && RegWriteM) //E->E
     ForwardBE <= 2'b10;
-  else if((RtE != `zero) && (RtE == WriteRegW) && RegWriteW)
+  else if((RtE != `zero) && (RtE == WriteRegW) && RegWriteW) //M->E
     ForwardBE <= 2'b01;
   else
     ForwardBE <= 2'b00;
 
+  //this handles E->D forwards
+  ForwardAD <= ((RsD != 0) && (RsD == WriteRegM) && RegWriteM); //E->D for Rs
+  ForwardBD <= ((RtD != 0) && (RtD == WriteRegM) && RegWriteM); //E->D for Rt
+
   //logic to handle stalling
-  StallF <= branchStall || lwStall;
-  StallD <= branchStall || lwStall;
-  FlushE <= branchStall || lwStall;
+  StallF <= ~(branchStall || lwStall); //inverted to handle the not gate (see drawing)
+  StallD <= ~(branchStall || lwStall); //inverted to handle the not gate (see drawing)
+  FlushE <= (branchStall || lwStall);
 
 
 
