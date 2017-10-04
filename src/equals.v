@@ -10,7 +10,7 @@ outputs:
 module equals(
   input wire [SIZE:0] input_0,
   input wire [SIZE:0] input_1,
-  output reg [1:0] equal_inputs);
+  output reg equal_inputs);
 
   //assume size is 31 unless otherwise specified
   parameter SIZE = 31;
