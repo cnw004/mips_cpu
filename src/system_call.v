@@ -2,7 +2,6 @@
 module to perform system call instructions
 
 inputs:
-  - clk: decides when to perform the syscall
   - syscall_control: comes out of control, decides if a it is a syscall
   - instruction: use to determine funccode and also statistical stuff
   - v0: decides what kind of syscall to perform
@@ -10,7 +9,6 @@ inputs:
 */
 
 module system_call(
-  input wire clk,
   input wire syscall_control,
   input wire [31:0] instruction,
   input wire [31:0] v0,
@@ -33,15 +31,15 @@ end
         // if v0 is 1 then it is a print syscall
         32'd1: $display("a0 is: %d", a0);
         //if v0 is 10 then the syscall is an exit
-        32'd10: begin 
-			$display("EXIT"); 
-			$display("Showing statistics..."); 
-			$display("------------------"); 
-			$display("Clock cycles %d", clk_counter); 
-			$display("num instructions: %d", num_instructions); 
-			$display("IPC: %d", num_instructions/clk_counter); 
+        32'd10: begin
+			$display("EXIT");
+			$display("Showing statistics...");
+			$display("------------------");
+			$display("Clock cycles %d", clk_counter);
+			$display("num instructions: %d", num_instructions);
+			$display("IPC: %d", num_instructions/clk_counter);
 			$display("Program ran in %t", $realtime);
-			$finish; 
+			$finish;
 		end
         default: $display("DEFAULT CASE IN SYSTEM_CALL");
       endcase
