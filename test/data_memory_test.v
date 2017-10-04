@@ -1,6 +1,6 @@
 `include "../src/data_memory.v"
 
-module testbench; //need to work on output and see what i can figure out
+module testbench; 
 
 reg mem_write;
 reg [31:0] address;
