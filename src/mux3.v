@@ -3,9 +3,9 @@ parameterized 3 input mux module
 
 inputs:
   - ctrl: decides which input to pass to out
-  - input_00: this input will be passed out if ctrl is 0
-  - input_01: this input will be passed out if ctrl is 1
-  - input_10: this input will be passed out if ctrl is 1
+  - input_00: this input will be passed out if ctrl is 00
+  - input_01: this input will be passed out if ctrl is 01
+  - input_10: this input will be passed out if ctrl is 10
 
 outputs:
   - out: either input_00, input_01, input_10 depending on ctrl
