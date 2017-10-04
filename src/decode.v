@@ -16,7 +16,7 @@
   - out4: alu ctrl (2:0)
   - out5: aluSrc
   - out6: regDst
-  - out7: output from register RD1
+  - out7: output from register RD1, as well as jump register's address if JR
   - out8: output from register RD2
   - out9: RsD (25:21)
   - out10: RtD (20:16)
@@ -25,6 +25,12 @@
   - out13: memWrite
   - out14: if branching, the branch address 
   - out15: pcsrc
+  - out16: jump control signal
+  - out17: jump register control signal
+  - out18: branch contrl signal
+  - out19: jump register address
+  - out20: normal jump address 
+  - out21: jal control signal 
  modules included:
    registers.v 
    sign_extend.v
@@ -61,7 +67,15 @@ module decode(
    output wire [31:0]  out12,
    output wire 	       out13,
    output wire [31:0]  out14,
-   output wire out15);
+   output wire 	       out15,
+   output wire 	       out16,
+   output wire 	       out17,
+   output wire 	       out18,
+   output wire [31:0]  out19,
+   output wire [31:0]  out20,
+   output wire 	       out21,
+	      
+);
 
    // internal wires
    wire [31:0] 	     instrD; // our instr, released from decode register
@@ -71,13 +85,7 @@ module decode(
    wire [31:0] 	     equalD_rt_input; // output from rd2 mux
    wire [31:0] 	     equals_output; // output from the equals module.. branching logic	     
    //CONTROL SIGNALS
-   wire 	     jump;
-   wire 	     jal;
-   wire 	     jumpRegister;
-   wire 	     branch;
    wire 	     memRead;
-   wire 	     memToReg;
-   wire 	     memWrite;
    wire 	     regWrite;
    //from register
    wire [31:0] 	     v0; // the value in register v0 to be used  by syscall module
@@ -86,22 +94,24 @@ module decode(
    wire [31:0] 	     jal_address; // possible branch address
    //instantiating and wiring together modules
    reg_d decodes(clk, enable, clear, instr, pc_plus_4, istrD, pc_plus_4_decoded);
-   control controller(instrD[31:26], instrD[5:0], out6, jump, jal, jumpRegister, branch, memRead, out3, out4, out13, out5, out2, out1); 
-   registers regs(~clk, jal, out2, instrD[25:21], instrD[20:16], instrD[4:0], write_data, out7, out8, v0, a0);   
+   control controller(instrD[31:26], instrD[5:0], out6, out16, out21, out17, out18, memRead, out3, out4, out13, out5, out2, out1);
+   registers regs(~clk, out21, out2, instrD[25:21], instrD[20:16], instrD[4:0], write_data, out7, out8, v0, a0);   
    sign_extend signs(instrD[15:0], out12);
    adder add_for_branch(out12 << 2, pc_plus_4_decoded, out14);
    adder add_for_jal(pc_plus_4_decoded, 32'd4, jal_address);
-   mux write_mux(jal, write_from_wb, jal_address, write_data);
+   mux write_mux(out21, write_from_wb, jal_address, write_data);
    mux rd1_mux(forwardAD, out7, aluOut, equalD_rs_input);
    mux rd2_mux(forwardBD, out8, aluOut, equalD_rt_input);
    equals branch_logic(equalD_rs_input, equalD_rt_input, equals_output);
-   and_gate branch_and(equals_output, branch, out15);
-
+   and_gate branch_and(equals_output, out18, out15);
+   
+   //shift 2
    //assign remaining  out wires
 	      
    assign out9 = instrD[25:21];
    assign out10 = instrD[20:16];
    assign out11 = instrD[15:11];
+   assign out20 = (instrD[25:0] << 2) + pc_plus_4_decoded);
    
    
 
