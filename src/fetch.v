@@ -40,7 +40,16 @@ module fetch(
    wire [31:0] jump_or_not; // jump address or pc+4
    wire [31:0] pc; // address result of jump/branch muxes
    
-   
+   input wire [31:0] pc,
+   input wire enable,
+   input wire clk,
+   output wire [31:0] instr,
+   output wire [31:0] pc_plus_4);
+
+   //interior wires
+   wire [31:0] pc_f; // from reg_f to adder and instruction memory
+   wire [31:0] constant_four = 32'd4; // constant value of 4 for pc + 4
+
    //instantiating and wiring together modules
    adder plus_4(pc_f, constant_four, pc_plus_4); 
    mux jump_reg_mux(jump_reg, jump_addr, jump_reg_addr, if_jump);
