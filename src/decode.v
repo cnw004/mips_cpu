@@ -90,7 +90,7 @@ module decode(
    registers regs(~clk, jal, out2, instrD[25:21], instrD[20:16], instrD[4:0], write_data, out7, out8, v0, a0);   
    sign_extend signs(instrD[15:0], out12);
    adder add_for_branch(out12 << 2, pc_plus_4_decoded, out14);
-   adder add_for_jal(pc_plus_4_decoded, 32'b0100, jal_address);
+   adder add_for_jal(pc_plus_4_decoded, 32'd4, jal_address);
    mux write_mux(jal, write_from_wb, jal_address, write_data);
    mux rd1_mux(forwardAD, out7, aluOut, equalD_rs_input);
    mux rd2_mux(forwardBD, out8, aluOut, equalD_rt_input);
