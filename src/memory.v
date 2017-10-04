@@ -10,9 +10,11 @@
    - ALUOutM: 32 bit, output from ALU
    - WriteDataM: 32 bit, data to be written to mem
    - WriteRegM: 5 bit, reg to write to
+   - instruction: the raw instruction passed all the way through to handle syscalls
+   - v0: the value in the v0 reg passed through to handle syscall
+   - a0: the value in the a0 reg passed through to handle syscall
 
  outputs:
-  - syscall_out: pass syscall bit to write module
   - output wire RegWriteW: passing regWrite into the W stage
   - MemtoRegM_out: passing MemToReg to the W stage
   - RD: output from data memory, data read
@@ -27,10 +29,12 @@ module memory(
   input wire RegWriteM,
   input wire MemToRegM,
   input wire MemWriteM,
+  input wire [31:0] instruction,
+  input wire [31:0] v0,
+  input wire [31:0] a0,
   input wire [31:0] ALUOutM,
   input wire [31:0] WriteDataM,
   input wire [4:0] WriteRegM,
-  output wire syscall_out,
   output wire RegWriteW,
   output wire MemtoRegM_out,
   output wire [31:0] RD,
@@ -38,6 +42,7 @@ module memory(
   );
 
   data_memory my_data_memory(MemWriteM, ALUOutM, WriteDataM, RD);
+  system_call my_sys_call(syscall, instruction, v0, a0);
 
   assign WriteRegM = WriteRegM_out;
   assign ALUOutW = ALUOutM;
