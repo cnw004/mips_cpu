@@ -14,10 +14,9 @@ module alu(
   input wire [31:0] read_data1,
   input wire [31:0] read_data2,
   input wire [2:0] aluop,
-  output reg [31:0] result,
-  output wire zero);
+  output reg [31:0] result);
 
-  assign zero = (result == 0);
+  // assign zero = (result == 0);
   always @(*) begin
     case(aluop)
       //and

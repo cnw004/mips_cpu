@@ -28,7 +28,7 @@ outputs:
   - ForwardAE: M->E & E->E forward for register Rs
   - ForwardBE: M->E & E->E forward for register Rt
 */
-module mux3(
+module hazard(
   input wire clk,
   input wire branchD,
   input wire [4:0] RsD,
@@ -60,6 +60,16 @@ assign branchStall = ((branchD && RegWriteE && (WriteRegE == RsD || WriteRegE ==
               (branchD && MemToRegM && (WriteRegM == RsD || WriteRegM == RtD)));
 
 assign lwStall = ((RsD == RtE) || (RtD == RtE) && MemToRegE);
+
+initial begin
+    StallF = 1; //set to 1 because passing negation of stallF as enable bit
+    StallD = 1; //set to 1 because passing negation of stallD as clear bit
+    ForwardAD = 0;
+    ForwardBD = 0;
+    ForwardBE = 0;
+    ForwardAE = 0;
+    ForwardBE = 0;
+end
 
 
 //should this be posedge or negedge??

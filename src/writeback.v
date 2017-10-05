@@ -1,6 +1,6 @@
 `include "mux.v"
 /*
- This module wires together everything in the fetch stage.
+ This module wires together everything in the writeback stage.
 
  inputs:
    - MemToRegW: 1 bit decides whether ALUout or read data gets passed to ResultW
@@ -15,7 +15,7 @@
  modules included:
    mux.v
  */
-module fetch(
+module writeback(
    input wire MemToRegW,
    input wire [31:0] ReadDataW,
    input wire [31:0] ALUOutW,

@@ -2,7 +2,7 @@
 
 module execute(
     //inputs from Execute Register - Control Components
-    input wire ALUControlE,
+    input wire [2:0] ALUControlE,
     input wire ALUSrcE,
     input wire RegDstE,
     //inputs from Execute Register - Decode Components

@@ -17,6 +17,11 @@ inputs:
   - in11: RdE (15:11)
   - in12: SignImmD (31:0)
   - in13: memWrite
+  - in14: a0
+  - in15: v0
+  - in16: Instruction
+
+
 
 output:
 - out1: syscall
@@ -32,6 +37,11 @@ output:
 - out11: RdE (15:11)
 - out12: SignImmD (31:0)
 - out13: memWrite
+- out14: a0
+- out15: v0
+- out16: Instruction
+- out17: hazard_in_MemtoRegE
+- out18: hazard_in_RegWriteE
 */
 
 module reg_e(input wire clk,
@@ -49,6 +59,9 @@ module reg_e(input wire clk,
   input wire [15:11] in11,
   input wire [31:0] in12,
   input wire in13,
+  input wire [31:0] in14, //a0
+  input wire [31:0] in15, //v0
+  input wire [31:0] in16, //instruction
   output reg out1,
   output reg out2,
   output reg out3,
@@ -61,7 +74,13 @@ module reg_e(input wire clk,
   output reg [20:16] out10,
   output reg [15:11] out11,
   output reg [31:0] out12,
-  output reg out13);
+  output reg out13,
+  output reg [31:0] out14, //a0
+  output reg [31:0] out15, //v0
+  output reg [31:0] out16,//instruction
+  output reg out17,
+  output reg out18
+  );
 
   always @(negedge clk) begin
     if(clr) begin
@@ -78,6 +97,12 @@ module reg_e(input wire clk,
       out11 <= 0;
       out12 <= 0;
       out13 <= 0;
+      out14 <= 0;
+      out15 <= 0;
+      out16 <= 0;
+      out17 <= 0;
+      out18 <= 0;
+
     end
 
     else begin
@@ -94,6 +119,8 @@ module reg_e(input wire clk,
       out11 <= in11;
       out12 <= in12;
       out13 <= in13;
+      out17 <= in3;
+      out18 <= in2;
     end
   end
 

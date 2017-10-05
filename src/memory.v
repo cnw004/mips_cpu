@@ -18,7 +18,9 @@
   - output wire RegWriteW: passing regWrite into the W stage
   - MemtoRegM_out: passing MemToReg to the W stage
   - RD: output from data memory, data read
-  - WriteRegM_out: reg to be passed into hazard unit
+  - WriteRegM_out: reg to be passed into writeback register
+  - WriteRegM_out_hazard: reg to be passed into hazard unit
+  - ALUOutW: Passes ALUOutput to the W stage
 
 
  modules included:
@@ -38,15 +40,18 @@ module memory(
   output wire RegWriteW,
   output wire MemtoRegM_out,
   output wire [31:0] RD,
-  output wire [4:0] WriteRegM_out
+  output wire [4:0] WriteRegM_out,
+  output wire [4:0] WriteRegM_out_hazard,
+  output wire [31:0] ALUOutW
   );
 
   data_memory my_data_memory(MemWriteM, ALUOutM, WriteDataM, RD);
   system_call my_sys_call(syscall, instruction, v0, a0);
 
-  assign WriteRegM = WriteRegM_out;
+  assign WriteRegM_out = WriteRegM ;
+  assign WriteRegM_out_hazard = WriteRegM ;
   assign ALUOutW = ALUOutM;
-  assign MemToRegM = MemtoRegM_out;
+  assign MemtoRegM_out = MemToRegM;
   assign syscall_out = syscall;
 
 
