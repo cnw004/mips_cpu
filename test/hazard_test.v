@@ -1,5 +1,6 @@
-`include "../src/hazard.v"
 `include "../mips.h"
+`include "../src/hazard.v"
+
 
 module testbench;
 
@@ -15,7 +16,7 @@ reg [4:0] RtD;
 reg [4:0] RsE;
 reg [4:0] RtE;
 reg MemToRegE;
-reg MemToRegM;
+reg RegWriteE;
 reg [4:0] WriteRegE;
 reg [4:0] WriteRegM;
 reg MemToRegM;
@@ -45,10 +46,23 @@ initial
     // set instruction stuff below...
 
     //add t1 t2 t3
-    instruction1 = 32'h014B4820;
+    branchD = 0;
+    RsD = `zero;
+    RtD = `zero;
+    RsE = `t1;
+    RtE = `t2;
+    MemToRegE = 0;
+    RegWriteE = 1;
+    WriteRegE = `t4;
+    WriteRegM = `t1;
+    MemToRegM = 0;
+    RegWriteM = 1;
+    WriteRegW = `zero;
+    RegWriteW = 0;
+
+
 
     //add t4 t1 t2
-    instruction2 = 32'h012A6020;
 
 
     // in1 = 32'h00000000; #20;
@@ -58,6 +72,6 @@ initial
     $finish;
   end
 
-hazard my_hazard();
+hazard my_hazard(clk, branchD, RsD, RtD, RsE, RtE, MemToRegE, RegWriteE, WriteRegE, WriteRegM, MemToRegM, RegWriteM, WriteRegW, RegWriteW, StallF, StallD, ForwardAD, ForwardBD, FlushE, ForwardAE, ForwardBE);
 
 endmodule
