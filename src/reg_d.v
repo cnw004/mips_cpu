@@ -24,8 +24,8 @@ module reg_d(
   //at negedge clk, pass value through
   always @(posedge clk) begin
     if(clr) begin
-      out1 <= 0;
-      out2 <= 0;
+      out1 <= 32'h00000000;
+      out2 <= 32'h00000000;
     end
     if(enable) begin
       out1 <= in1;
