@@ -15,7 +15,7 @@ module reg_f(
   input wire [31:0] in1,
   output reg [31:0] out1);
 
-  //if negedge clk, pass value through
+  //if posedge clk, pass value through
   always @(posedge clk) begin
     if(enable)
       out1 <= in1;
