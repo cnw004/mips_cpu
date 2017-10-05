@@ -4,6 +4,10 @@
 module testbench;
 
 //inputs
+reg [31:0] instruction1;
+reg [31:0] instruction2;
+reg [31:0] instruction3;
+
 reg clk;
 reg branchD;
 reg [4:0] RsD;
@@ -39,6 +43,13 @@ initial
 
     $monitor("StallF is %d, StallD is %d, ForwardAD is %d, ForwardBD is %d, FlushE is %d, ForwardAE is %d, ForwardBE is %d", StallF, StallD, ForwardAD, ForwardBD, FlushE, ForwardAE, ForwardBE);
     // set instruction stuff below...
+
+    //add t1 t2 t3
+    instruction1 = 32'h014B4820;
+
+    //add t4 t1 t2
+    instruction2 = 32'h012A6020;
+
 
     // in1 = 32'h00000000; #20;
     // in1 = 32'h00ab4000; #20;
