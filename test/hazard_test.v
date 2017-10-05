@@ -38,6 +38,8 @@ initial
     clk = 1;
 
     $monitor("StallF is %d, StallD is %d, ForwardAD is %d, ForwardBD is %d, FlushE is %d, ForwardAE is %d, ForwardBE is %d", StallF, StallD, ForwardAD, ForwardBD, FlushE, ForwardAE, ForwardBE);
+    // set instruction stuff below...
+    
     // in1 = 32'h00000000; #20;
     // in1 = 32'h00ab4000; #20;
     // in1 = 32'h00001232; #20;
