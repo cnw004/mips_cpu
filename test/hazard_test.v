@@ -45,7 +45,7 @@ initial
     $monitor("StallF is %d, StallD is %d, ForwardAD is %d, ForwardBD is %d, FlushE is %d, ForwardAE is %d, ForwardBE is %d", StallF, StallD, ForwardAD, ForwardBD, FlushE, ForwardAE, ForwardBE);
     // set instruction stuff below...
 
-    //add t1 t2 t3
+    //test E->E
     branchD = 0;
     RsD = `zero;
     RtD = `zero;
@@ -60,9 +60,24 @@ initial
     WriteRegW = `zero;
     RegWriteW = 0;
 
+    //test M->E
+    #20;
+    branchD = 0;
+    RsD = `zero;
+    RtD = `zero;
+    RsE = `t1;
+    RtE = `t2;
+    MemToRegE = 0;
+    RegWriteE = 1;
+    WriteRegE = `t3;
+    WriteRegM = `zero;
+    MemToRegM = 0;
+    RegWriteM = 1;
+    WriteRegW = `t1;
+    RegWriteW = 1;
 
 
-    //add t4 t1 t2
+
 
 
     // in1 = 32'h00000000; #20;

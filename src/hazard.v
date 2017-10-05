@@ -1,4 +1,4 @@
-`include "mips.h" //various defines
+`include "../mips.h" //various defines
 
 /*
 parameterized 3 input mux module
@@ -28,13 +28,14 @@ outputs:
   - ForwardAE: M->E & E->E forward for register Rs
   - ForwardBE: M->E & E->E forward for register Rt
 */
-module mux3(
+module hazard(
   input wire clk,
   input wire branchD,
   input wire [4:0] RsD,
   input wire [4:0] RtD,
   input wire [4:0] RsE,
   input wire [4:0] RtE,
+  input wire [4:0] RsM,
   input wire MemToRegE,
   input wire RegWriteE,
   input wire [4:0] WriteRegE,
@@ -43,13 +44,15 @@ module mux3(
   input wire RegWriteM,
   input wire [4:0] WriteRegW,
   input wire RegWriteW,
+  input wire MemWriteM,
   output reg StallF,
   output reg StallD,
   output reg ForwardAD,
   output reg ForwardBD,
   output reg FlushE,
   output reg [1:0] ForwardAE,
-  output reg [1:0] ForwardBE
+  output reg [1:0] ForwardBE,
+  output reg ForwardMem
   );
 
 wire branchStall;
@@ -92,6 +95,8 @@ always @(posedge clk) begin
 
   //only happens when we stall, ensures we dont push "bogus information" through the pipeline
   FlushE <= (branchStall || lwStall);
+
+  ForwardMem <= ((RsM != `zero) && RsM == WriteRegW && RegWriteW && MemWriteM); //M->M forwarding
 
 
 
