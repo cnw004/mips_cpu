@@ -53,6 +53,22 @@ module reg_m(input wire clk,
   output reg out11,
   output reg out12);
 
+
+  initial begin
+    out1 <= 0;
+    out2 <= 0;
+    out3 <= 0;
+    out4 <= 0;
+    out5 <= 0;
+    out6 <= 0;
+    out7 <= 0;
+    out8 <= 0;
+    out9 <= 0;
+    out10 <= 0;
+    out11 <= 0;
+    out12 <= 0;
+  end
+
   always @(posedge clk) begin
     out1 <= in1;
     out2 <= in2;

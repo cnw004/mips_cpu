@@ -33,6 +33,15 @@ module reg_w(input wire clk,
   output reg [4:0] out6,
   output reg out7);
 
+  initial begin
+    out2 <= 0;
+    out3 <= 0;
+    out4 <= 0;
+    out5 <= 0;
+    out6 <= 0;
+    out7 <= 0;
+  end
+
   always @(posedge clk) begin
     out2 <= in2;
     out3 <= in3;

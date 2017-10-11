@@ -13,6 +13,10 @@ module adder(
   input wire [31:0] in2,
   output reg [31:0] adder_out);
 
+  initial begin
+    adder_out <= 0;
+  end
+
   always @(in1)
     begin
       adder_out = in1 + in2;

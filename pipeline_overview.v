@@ -201,8 +201,8 @@ module pipeline_overview();
     //clock logic
   always
     begin
-      #1000; clock = ~clock; // inline clock generator that the rest of the mips uses
-      $monitor("Syscall is %x", memory_in_syscall);
+      #10; clock = ~clock; // inline clock generator that the rest of the mips uses
+      //$monitor("Syscall is %x", memory_in_syscall);
     end
 
     //todo: Go through ALL register modules and ensure clear is good and passing through values is good.

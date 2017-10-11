@@ -21,6 +21,11 @@ module reg_d(
   output reg [31:0] out1,
   output reg [31:0] out2);
 
+
+  initial begin
+    out1 <= 0;
+    out2 <= 0;
+  end
   //at negedge clk, pass value through
   always @(posedge clk) begin
     if(clr) begin

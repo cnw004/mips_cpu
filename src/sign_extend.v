@@ -12,6 +12,10 @@ module sign_extend(
   input wire [15:0] in,
   output reg [31:0] out);
 
+
+  initial begin
+    out <= 0;
+  end
 //perform an extension
 always @(in)
   begin

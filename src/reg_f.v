@@ -15,6 +15,11 @@ module reg_f(
   input wire [31:0] in1,
   output reg [31:0] out1);
 
+  //init the value of the first pc
+  initial begin
+    out1 = 32'h00400020;
+  end
+  
   //if negedge clk, pass value through
   always @(posedge clk) begin
     if(enable)

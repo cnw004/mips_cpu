@@ -16,6 +16,10 @@ module alu(
   input wire [2:0] aluop,
   output reg [31:0] result);
 
+  initial begin
+    result <= 0;
+  end
+
   // assign zero = (result == 0);
   always @(*) begin
     case(aluop)

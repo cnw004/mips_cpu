@@ -18,6 +18,10 @@ module mux(
   //assume size is 31 unless otherwise specified
   parameter SIZE = 31;
 
+  initial begin
+    out <= 0;
+  end
+  
   always @(*)
     begin
       out = (ctrl == 0 ? input_zero : input_one);

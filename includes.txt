@@ -22,4 +22,3 @@ src/execute.v
 src/mips.h
 src/memory.v
 src/writeback.v
-src/add_test.v

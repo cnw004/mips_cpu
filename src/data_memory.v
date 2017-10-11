@@ -16,6 +16,10 @@ module data_memory(
   input wire [31:0] write_data,
   output reg [31:0] read_data);
 
+  initial begin
+    read_data <= 0;
+  end
+
   //declare the memory
   reg [31:0] data_mem [32'h7FFF0000:32'h7FFFFFFC]; //not entirely sure this is correct
 

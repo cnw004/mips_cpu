@@ -36,6 +36,21 @@ module control(
   output reg regWrite,
   output reg syscall);
 
+  initial begin
+    regDst <= 0;
+    jump <= 0;
+    jal <= 0;
+    jumpRegister <= 0;
+    branch <= 0;
+    memRead <= 0;
+    memToReg <= 0;
+    aluOp <= 0;
+    memWrite <= 0;
+    aluSrc <= 0;
+    regWrite <= 0;
+    syscall <= 0;
+  end
+
   always @ ( * ) begin
 
     //regDst

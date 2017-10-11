@@ -9,7 +9,7 @@ iverilog pipeline_overview.v -o output -c includes.txt
 
 echo "Running program"
 echo "---------------"
-./output
+#./output
 
 echo "-------FINISHED-------"
 
