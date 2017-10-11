@@ -1,5 +1,5 @@
 /*
- This module wires together everything in the fetch stage, as well as jump/branch multiplexors.  
+ This module wires together everything in the fetch stage, as well as jump/branch multiplexors.
  inputs:
    jump: jump control signal
    jump_reg: jump register control signal
@@ -19,26 +19,26 @@
  */
 module fetch(
    input wire 	     jump,
-   input wire 	     jump_reg, 
+   input wire 	     jump_reg,
    input wire 	     branch,
    input wire [31:0] branch_addr,
    input wire [31:0] jump_reg_addr,
    input wire [31:0] jump_addr,
    input wire 	     enable,
    input wire 	     clk,
-   output reg [31:0] instr,
+   output wire [31:0] instr,
    output wire [31:0] pc_plus_4); // also gets used by jump_mux
-   
+
    //interior wires
    wire [31:0] pc_f; // from reg_f to adder and instruction memory
    wire [31:0] constant_four = 32'd4; // constant value of 4 for pc + 4
-   wire [31:0] if_jump; // address to jump to if jumping 
+   wire [31:0] if_jump; // address to jump to if jumping
    wire [31:0] jump_or_not; // jump address or pc+4
    wire [31:0] pc; // address result of jump/branch muxes
-   
+
 
    //instantiating and wiring together modules
-   adder plus_4(pc_f, constant_four, pc_plus_4); 
+   adder plus_4(pc_f, constant_four, pc_plus_4);
    mux jump_reg_mux(jump_reg, jump_addr, jump_reg_addr, if_jump);
    mux jump_mux(jump, pc_plus_4, if_jump, jump_or_not);
    mux next_pc(branch, if_jump, branch_addr, pc);

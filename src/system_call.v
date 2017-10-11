@@ -23,7 +23,7 @@ initial begin
 	time_var = $realtime;
 end
 
-  always @ ( posedge clk ) begin
+  always @ ( * ) begin
 	clk_counter = clk_counter + 1;
     //check func_code and syscall_control to decide if the instruction is a syscall
     if((instruction[5:0] == 6'hc) && (syscall_control == 1'b1)) begin
@@ -32,13 +32,13 @@ end
         32'd1: $display("a0 is: %d", a0);
         //if v0 is 10 then the syscall is an exit
         32'd10: begin
-			$display("EXIT");
-			$display("Showing statistics...");
-			$display("------------------");
-			$display("Clock cycles %d", clk_counter);
-			$display("num instructions: %d", num_instructions);
-			$display("IPC: %d", num_instructions/clk_counter);
-			$display("Program ran in %t", $realtime);
+			// $display("EXIT");
+			// $display("Showing statistics...");
+			// $display("------------------");
+			// $display("Clock cycles %d", clk_counter);
+			// $display("num instructions: %d", num_instructions);
+			// $display("IPC: %d", num_instructions/clk_counter);
+			// $display("Program ran in %t", $realtime);
 			$finish;
 		end
         default: $display("DEFAULT CASE IN SYSTEM_CALL");

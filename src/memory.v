@@ -1,4 +1,4 @@
-`include "data_memory.v"
+//`include "data_memory.v"
 /*
  This module wires together everything in the memory stage.
 

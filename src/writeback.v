@@ -1,4 +1,4 @@
-`include "mux.v"
+//`include "mux.v"
 /*
  This module wires together everything in the writeback stage.
 

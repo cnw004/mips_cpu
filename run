@@ -1,0 +1,15 @@
+#!/bin/bash
+
+find src/ -name "*.*" > includes.txt
+
+echo "Compiling..."
+echo ""
+
+iverilog pipeline_overview.v -o output -c includes.txt
+
+echo "Running program"
+echo "---------------"
+./output
+
+echo "-------FINISHED-------"
+

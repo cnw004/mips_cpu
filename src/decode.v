@@ -59,8 +59,8 @@ module decode(
    input wire [31:0]   instrD,
    input wire [31:0]   write_from_wb,
    input wire [31:0]   alu_out,
-   input wire [31:0]   forwardAD,
-   input wire [31:0]   forwardBD,
+   input wire    forwardAD,
+   input wire    forwardBD,
    input wire          regWriteW, // regWrite control signal stemming from wb module
    output wire 	       out1,
    output wire [31:0]  out1a,
@@ -93,7 +93,7 @@ module decode(
    wire [31:0] 	     write_data; // data to be written to the write_register
    wire [31:0] 	     equalD_rs_input; // output from rd1 mux
    wire [31:0] 	     equalD_rt_input; // output from rd2 mux
-   wire [31:0] 	     equals_output; // output from the equals module.. branching logic
+   wire  	     equals_output; // output from the equals module.. branching logic
    //CONTROL SIGNALS
    wire 	     memRead;
    wire        jal;
@@ -109,8 +109,8 @@ module decode(
    adder add_for_branch(out12 << 2, pc_plus_4_decoded, out14);
    adder add_for_jal(pc_plus_4_decoded, 32'd4, jal_address);
    mux write_mux(jal, write_from_wb, jal_address, write_data);
-   mux rd1_mux(forwardAD, out7, aluOut, equalD_rs_input);
-   mux rd2_mux(forwardBD, out8, aluOut, equalD_rt_input);
+   mux rd1_mux(forwardAD, out7, alu_out, equalD_rs_input);
+   mux rd2_mux(forwardBD, out8, alu_out, equalD_rt_input);
    equals branch_logic(equalD_rs_input, equalD_rt_input, equals_output);
    and_gate branch_and(equals_output, out18, out15);
 

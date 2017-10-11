@@ -13,19 +13,19 @@ module execute(
     input wire [4:0] RdE,
     input wire [31:0] SignImmE,
     //inputs from Hazard
-    input wire ForwardAE,
-    input wire ForwardBE,
+    input wire [1:0] ForwardAE,
+    input wire [1:0] ForwardBE,
     //inputs for forwarding
     input wire [31:0] ForwardMemVal, //01 input of mux3ALUInput 1&2 forward from exec
     input wire [31:0] ForwardExecVal, //10 input of mux3ALUInput 1&2 foward from mem
     //outputs to hazard unit
-    output reg RsEHazard, //output RsE value right to hazards
-    output reg RtEHazard, //output RtE value right to hazards
+    output reg [4:0] RsEHazard, //output RsE value right to hazards
+    output reg [4:0] RtEHazard, //output RtE value right to hazards
     //outputs to memory Register
-    output reg [31:0] ALUOutput,
+    output wire [31:0] ALUOutput,
     output reg [31:0] WriteDataE,
     //output to both hazard unit and memory register
-    output reg [4:0] WriteRegE
+    output wire [4:0] WriteRegE
     );
 
     //declaration of internal wires (output of one module that inputs to another)
@@ -35,7 +35,7 @@ module execute(
     wire [31:0] SrcBE;
 
     //declaration of modules necessary to the internal workings of execute
-    mux MuxWriteRegE(RegDstE, RtE, RdE, WriteRegE);
+    mux #(.SIZE(4)) MuxWriteRegE(RegDstE, RtE, RdE, WriteRegE);
     mux3 Mux3SrcAE(ForwardAE, reg1, ForwardMemVal, ForwardExecVal, SrcAE);
     mux3 Mux3SrcBe(ForwardBE, reg2, ForwardMemVal, ForwardExecVal, ForwardHandlingReg2ALU);
     mux MuxSrcBE(ALUSrcE, ForwardHandlingReg2ALU, SignImmE, SrcBE);

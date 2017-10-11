@@ -49,7 +49,7 @@ module reg_m(input wire clk,
   output reg [4:0] out7,
   output reg [31:0] out8, //a0
   output reg [31:0] out9, //v0
-  output reg [31:0] out10 //instruction);
+  output reg [31:0] out10, //instruction);
   output reg out11,
   output reg out12);
 
