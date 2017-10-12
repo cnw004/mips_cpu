@@ -22,3 +22,4 @@ src/execute.v
 src/mips.h
 src/memory.v
 src/writeback.v
+src/adder_four.v
