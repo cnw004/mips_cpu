@@ -59,7 +59,7 @@ assign branchStall = ((branchD && RegWriteE && (WriteRegE == RsD || WriteRegE ==
                                       ||
               (branchD && MemToRegM && (WriteRegM == RsD || WriteRegM == RtD)));
 
-assign lwStall = ((RsD == RtE) || (RtD == RtE) && MemToRegE);
+assign lwStall = ((RsD == RtE) || (RtD == RtE)) && MemToRegE;
 
 initial begin
     StallF <= 1; //set to 1 because passing negation of stallF as enable bit

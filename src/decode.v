@@ -29,6 +29,7 @@
   - out13: memWrite
   - out14: if branching, the branch address
   - out15: pcsrc
+  - out15a: pcsrc to decode register
   - out16: jump control signal
   - out17: jump register control signal
   - out18: branchD
@@ -51,7 +52,6 @@
 */
 
 module decode(
-   input wire 	       enable,
    input wire 	       clk,
    input wire [31:0]   pc_plus_4_decoded,
    input wire [31:0]   instrD,
@@ -78,6 +78,7 @@ module decode(
    output wire 	       out13,
    output wire [31:0]  out14,
    output wire 	       out15,
+   output wire           out15a,
    output wire 	       out16,
    output wire 	       out17,
    output wire         out18,
@@ -122,6 +123,8 @@ module decode(
    assign out11 = instrD[15:11];
    assign out20 = (instrD[25:0] << 2) + pc_plus_4_decoded;
    assign out1a = instrD;
+   assign out19 = regs.reg_mem[`ra];
+   assign out15a = out15;
 
 
 

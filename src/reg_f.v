@@ -22,10 +22,10 @@ module reg_f(
 
   //if negedge clk, pass value through
   always @(posedge clk) begin
-    if(enable)
+    //if(enable)
       out1 <= in1;
-    else
-      out1 <= 0;
+    //else
+      //out1 <= 0;
   end
 
 endmodule

@@ -22,10 +22,10 @@ module pipeline_overview();
   wire decode_reg_in_clr; //StallD
   wire decode_reg_in_enable; //from hazard
 
+
   //inputs for decode module
   wire [31:0] decode_in_instrD;
   wire [31:0] decode_in_pc_plus_4;
-  wire decode_in_enable; // StallD
   wire decode_in_clear; // value of PCSRC
   wire [31:0] decode_in_write_from_wb; // writeback value from WB module
   wire [31:0] decode_in_alu_out; // alu_out from memory stage
@@ -135,14 +135,14 @@ module pipeline_overview();
   .in1(decode_reg_in_instr), .in2(decode_reg_in_pc_plus_4), .out1(decode_in_instrD), .out2(decode_in_pc_plus_4));
 
   //decode declaration
-  decode decode_module(.enable(decode_in_enable), .clear(decode_in_clr), .clk(clock),
+  decode decode_module(.clk(clock),
   .pc_plus_4_decoded(decode_in_pc_plus_4), .instrD(decode_in_instrD), .write_from_wb(decode_in_write_from_wb),
   .alu_out(decode_in_alu_out), .forwardAD(decode_in_forwardAD), .forwardBD(decode_in_forwardBD), .regWriteW(decode_in_regWriteW),
   .out1(execute_reg_in_syscall), .out1a(execute_reg_in_instruction), .out1b(execute_reg_in_a0), .out1c(execute_reg_in_v0),
   .out2(execute_reg_in_reg_write), .out3(execute_reg_in_mem_to_reg), .out4(execute_reg_in_alu_ctrl),
   .out5(execute_reg_in_alu_src), .out6(execute_reg_in_reg_dst), .out7(execute_reg_in_rd1), .out8(execute_reg_in_rd2),
   .out9(execute_reg_in_rsD), .out10(execute_reg_in_rtD), .out11(execute_reg_in_rdE), .out12(execute_reg_in_sign_immediate),
-  .out13(execute_reg_in_mem_write), .out14(fetch_in_branch_addr), .out15(fetch_in_branch), .out16(fetch_in_jump),
+  .out13(execute_reg_in_mem_write), .out14(fetch_in_branch_addr), .out15(fetch_in_branch), .out15a(decode_reg_in_clr), .out16(fetch_in_jump),
   .out17(fetch_in_jump_reg), .out18(hazard_in_branchD), .out19(fetch_in_jump_reg_adddr), .out20(fetch_in_jump_addr),
   .out21(hazard_in_RsD), .out22(hazard_in_RtD));
 
@@ -191,7 +191,7 @@ module pipeline_overview();
   .RsE(hazard_in_RsE), .RtE(hazard_in_RtE), .MemToRegE(hazard_in_MemtoRegE), .RegWriteE(hazard_in_RegWriteE),
   .WriteRegE(hazard_in_WriteRegE), .WriteRegM(hazard_in_WriteRegM), .MemToRegM(hazard_in_MemtoRegM),
   .RegWriteM(hazard_in_RegWriteM), .WriteRegW(hazard_in_WriteRegW), .RegWriteW(hazard_in_RegWriteW),
-  .StallF(fetch_in_enable), .StallD(decode_reg_in_clr), .ForwardAD(decode_in_forwardAD), .ForwardBD(decode_in_forwardBD),
+  .StallF(fetch_in_enable), .StallD(decode_reg_in_enable), .ForwardAD(decode_in_forwardAD), .ForwardBD(decode_in_forwardBD),
   .FlushE(execute_reg_in_clr), .ForwardAE(execute_in_ForwardAE), .ForwardBE(execute_in_ForwardBE));
 
 

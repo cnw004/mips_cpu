@@ -13,7 +13,7 @@ inputs:
 output:
 - out2: reg write
 - out3: mem to reg
-- out4: RD from data mem [31:0]
+- out4: ReadDataW
 - out5: ALUoutW [31:0]
 - out6: writeRegW [4:0]
 - out7: RegWriteW to hazard

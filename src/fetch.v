@@ -40,7 +40,8 @@ module fetch(
 
    initial begin
       //instr <= 0;
-      pc_plus_4 <= 32'h00400020;;
+      // pc <= 32'h00400020;
+      pc_plus_4 <= 32'h0040002;
    end
 
 
@@ -50,7 +51,7 @@ module fetch(
    end
 
    //instantiating and wiring together modules
-   adder plus_4(pc_f, constant_four, pc_plus_4_internal);
+   adder_four plus_4(pc_f, constant_four, pc_plus_4_internal);
    mux jump_reg_mux(jump_reg, jump_addr, jump_reg_addr, if_jump);
    mux jump_mux(jump, pc_plus_4_internal, if_jump, jump_or_not);
    mux next_pc(branch, jump_or_not, branch_addr, pc);

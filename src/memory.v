@@ -53,6 +53,7 @@ module memory(
   assign ALUOutW = ALUOutM;
   assign MemtoRegM_out = MemToRegM;
   assign syscall_out = syscall;
+  assign RegWriteW = RegWriteM;
 
 
 endmodule
