@@ -54,45 +54,45 @@ module control(
   always @ ( * ) begin
 
     //regDst
-    regDst = (opcode == `SPECIAL); //any R-Type instruction
+    regDst <= (opcode == `SPECIAL); //any R-Type instruction
 
     //jump
-    jump = (opcode == `J || opcode == `JAL || opcode == `JR) ? 1 : 0;
+    jump <= (opcode == `J || opcode == `JAL || opcode == `JR) ? 1 : 0;
 
     //jumpAndLink
-    jal = (opcode == `JAL) ? 1 : 0;
+    jal <= (opcode == `JAL) ? 1 : 0;
 
     //jump - register
-    jumpRegister = (opcode == `JR);
+    jumpRegister <= (opcode == `JR);
 
     //branch
-    branch = (opcode == `BEQ || opcode == `BNE) ? 1 : 0;
+    branch <= (opcode == `BEQ || opcode == `BNE) ? 1 : 0;
 
     //memRead
-    memRead = (opcode == `LW);
+    memRead <= (opcode == `LW);
 
     //memToReg
-    memToReg = (opcode == `LW);
+    memToReg <= (opcode == `LW);
 
     //memWrite
-    memWrite = (opcode == `SW);
+    memWrite <= (opcode == `SW);
 
     //aluSrc
-    aluSrc = (opcode == `ADDI ||
+    aluSrc <= (opcode == `ADDI ||
              opcode == `ADDIU ||
               opcode == `ORI  ||
               opcode == `LW   ||
               opcode == `SW);
 
     //regWrite
-    regWrite = (opcode == `SPECIAL || //any R-Type
+    regWrite <= (opcode == `SPECIAL || //any R-Type
                 opcode == `ADDI ||
                 opcode == `ADDIU ||
                 opcode == `ORI ||
                 opcode == `LW);
 
     //syscall
-    syscall = ( opcode == 0 && funcCode == 6'hc ) ? 1 : 0;
+    syscall <= ( opcode == 0 && funcCode == 6'hc ) ? 1 : 0;
 
     // //R typ instructions
     // if (opcode == 0)
@@ -116,15 +116,15 @@ module control(
 
     //Logic for ALUop output
     if (opcode == `SPECIAL && funcCode == `AND)
-        aluOp = `ALU_AND;
+        aluOp <= `ALU_AND;
     else if((opcode == `SPECIAL && funcCode == `OR) || opcode == `ORI)
-        aluOp = `ALU_OR;
+        aluOp <= `ALU_OR;
     else if((opcode == `SPECIAL && funcCode == `ADD) || opcode == `ADDI || opcode == `ADDIU || opcode == `LW || opcode == `SW)
-        aluOp = `ALU_add;
+        aluOp <= `ALU_add;
     else if((opcode == `SPECIAL && funcCode == `SUB) || opcode == `BEQ || opcode == `BNE)
-        aluOp = `ALU_sub;
+        aluOp <= `ALU_sub;
     else
-        aluOp = `ALU_slt; //default case
+        aluOp <= `ALU_slt; //default case
   end
 
 endmodule

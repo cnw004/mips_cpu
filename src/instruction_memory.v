@@ -25,10 +25,10 @@ module instruction_memory(
   always @(addr)
     begin
         if(addr == 32'b0)
-          instruction = 0;
+          instruction <= 0;
         else begin
-          real_addr = addr >> 2;
-          instruction = memory[real_addr];
+          real_addr <= addr >> 2;
+          instruction <= memory[real_addr];
         end
     end
 

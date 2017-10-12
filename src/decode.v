@@ -2,7 +2,6 @@
  This module wires together everything in the decode stage.
  inputs:
    enable: value of not stallD control signal from the Hazard unit
-   clear: value of PCSRC (Whether the PC is coming from a jump/branch or adder
    clk: our clock
    pc_plus_4: the possible next pc if not jump/branch
    instr: the instruction
@@ -53,7 +52,6 @@
 
 module decode(
    input wire 	       enable,
-   input wire 	       clear,
    input wire 	       clk,
    input wire [31:0]   pc_plus_4_decoded,
    input wire [31:0]   instrD,

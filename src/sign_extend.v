@@ -19,7 +19,7 @@ module sign_extend(
 //perform an extension
 always @(in)
   begin
-    out = {{16{in[15]}}, in[15:0]};
+    out <= {{16{in[15]}}, in[15:0]};
   end
 
 endmodule

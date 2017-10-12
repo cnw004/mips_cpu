@@ -19,6 +19,6 @@ module adder(
 
   always @(in1)
     begin
-      adder_out = in1 + in2;
+      adder_out <= in1 + in2;
     end
 endmodule

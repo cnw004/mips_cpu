@@ -21,9 +21,9 @@ module mux(
   initial begin
     out <= 0;
   end
-  
+
   always @(*)
     begin
-      out = (ctrl == 0 ? input_zero : input_one);
+      out <= (ctrl == 0 ? input_zero : input_one);
     end
 endmodule

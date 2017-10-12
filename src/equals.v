@@ -19,5 +19,5 @@ module equals(
   //assume size is 31 unless otherwise specified
   parameter SIZE = 31;
   always @(*)
-    equal_inputs = (input_0 == input_1);
+    equal_inputs <= (input_0 == input_1);
 endmodule

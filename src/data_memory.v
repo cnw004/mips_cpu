@@ -27,9 +27,9 @@ module data_memory(
   always @(mem_write, address)
     begin
       if(mem_write == 1)
-        data_mem[address] = write_data;
+        data_mem[address] <= write_data;
       else
-        read_data = data_mem[address];
+        read_data <= data_mem[address];
     end
 
 endmodule

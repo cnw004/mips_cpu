@@ -23,13 +23,13 @@ module mux3(
   initial begin
     out <= 0;
   end
-  
+
   always @(*)
     begin
       case (ctrl)
-        (2'b00): out = input_00;
-        (2'b01): out = input_01;
-        (2'b10): out = input_10;
+        (2'b00): out <= input_00;
+        (2'b01): out <= input_01;
+        (2'b10): out <= input_10;
       endcase
     end
 endmodule
