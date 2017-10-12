@@ -40,7 +40,7 @@ module fetch(
 
    initial begin
       //instr <= 0;
-      pc_plus_4 <= 0;
+      pc_plus_4 <= 32'h00400020;;
    end
 
 
