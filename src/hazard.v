@@ -62,13 +62,14 @@ assign branchStall = ((branchD && RegWriteE && (WriteRegE == RsD || WriteRegE ==
 assign lwStall = ((RsD == RtE) || (RtD == RtE) && MemToRegE);
 
 initial begin
-    StallF = 1; //set to 1 because passing negation of stallF as enable bit
-    StallD = 1; //set to 1 because passing negation of stallD as clear bit
-    ForwardAD = 0;
-    ForwardBD = 0;
-    ForwardBE = 0;
-    ForwardAE = 0;
-    ForwardBE = 0;
+    StallF <= 1; //set to 1 because passing negation of stallF as enable bit
+    StallD <= 1; //set to 1 because passing negation of stallD as clear bit
+    ForwardAD <= 0;
+    ForwardBD <= 0;
+    ForwardBE <= 0;
+    ForwardAE <= 0;
+    FlushE <= 0;
+
 end
 
 
@@ -97,8 +98,8 @@ always @(posedge clk) begin
   ForwardBD <= ((RtD != 0) && (RtD == WriteRegM) && RegWriteM); //E->D for Rt
 
   //logic to handle stalling
-  StallF <= ~(branchStall || lwStall); //inverted to handle the not gate (see drawing)
-  StallD <= ~(branchStall || lwStall); //inverted to handle the not gate (see drawing)
+  StallF <= !(branchStall || lwStall); //inverted to handle the not gate (see drawing)
+  StallD <= !(branchStall || lwStall); //inverted to handle the not gate (see drawing)
 
   //only happens when we stall, ensures we dont push "bogus information" through the pipeline
   FlushE <= (branchStall || lwStall);

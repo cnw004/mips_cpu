@@ -106,7 +106,7 @@ end
 
 
 
-  always @(negedge clk) begin
+  always @(posedge clk) begin
     if(clr) begin
       out1 <= 0;
       out2 <= 0;

@@ -161,7 +161,7 @@ module pipeline_overview();
   .reg1(execute_in_reg1), .reg2(execute_in_reg2), .RsE(execute_in_RsE), .RtE(execute_in_RtE), .RdE(execute_in_RdE),
   .SignImmE(execute_in_SignImmE), .ForwardAE(execute_in_ForwardAE), .ForwardBE(execute_in_ForwardBE), .ForwardMemVal(execute_in_ForwardMemVal),
   .ForwardExecVal(execute_in_ForwardExecVal), .RsEHazard(hazard_in_RsE), .RtEHazard(hazard_in_RtE), .ALUOutput(memory_reg_in_ALUOutput),
-  .WriteDataE(memory_reg_in_WriteDataE), .WriteRegE(memory_reg_in_WriteRegE));
+  .WriteDataE(memory_reg_in_WriteDataE), .WriteRegE(memory_reg_in_WriteRegE), .Hazard_WriteRegE(hazard_in_WriteRegE));
 
   //memory register module declaration
   reg_m reg_m_module(.clk(clock), .in1(memory_reg_in_syscall), .in2(memory_reg_in_reg_write),

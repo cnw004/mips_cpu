@@ -39,7 +39,7 @@ module fetch(
    wire [31:0] pc_plus_4_internal;
 
    initial begin
-      instr <= 0;
+      //instr <= 0;
       pc_plus_4 <= 0;
    end
 

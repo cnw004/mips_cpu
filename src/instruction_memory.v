@@ -19,13 +19,17 @@ module instruction_memory(
   reg [31:0] real_addr;
 
   initial begin
-    instruction <= 0;
+    //instruction <= 0;
   end
   //change into a word address
   always @(addr)
     begin
-        real_addr = addr >> 2;
-        instruction = memory[real_addr];
+        if(addr == 32'b0)
+          instruction = 0;
+        else begin
+          real_addr = addr >> 2;
+          instruction = memory[real_addr];
+        end
     end
 
   //read instructions

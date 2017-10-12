@@ -25,7 +25,8 @@ module execute(
     output wire [31:0] ALUOutput,
     output reg [31:0] WriteDataE,
     //output to both hazard unit and memory register
-    output wire [4:0] WriteRegE
+    output reg [4:0] WriteRegE,
+    output reg [4:0] Hazard_WriteRegE
     );
 
     //declaration of internal wires (output of one module that inputs to another)
@@ -33,12 +34,25 @@ module execute(
     wire [31:0] SrcAE;
     wire [31:0] ForwardHandlingReg2ALU;
     wire [31:0] SrcBE;
+    wire [4:0] WriteRegE_internal;
+
+    initial begin
+        RtEHazard <= 0;
+        RsEHazard <= 0;
+        WriteRegE <= 0;
+        Hazard_WriteRegE <= 0;
+    end
 
     //declaration of modules necessary to the internal workings of execute
-    mux #(.SIZE(4)) MuxWriteRegE(RegDstE, RtE, RdE, WriteRegE);
+    mux #(.SIZE(4)) MuxWriteRegE(RegDstE, RtE, RdE, WriteRegE_internal);
     mux3 Mux3SrcAE(ForwardAE, reg1, ForwardMemVal, ForwardExecVal, SrcAE);
     mux3 Mux3SrcBe(ForwardBE, reg2, ForwardMemVal, ForwardExecVal, ForwardHandlingReg2ALU);
     mux MuxSrcBE(ALUSrcE, ForwardHandlingReg2ALU, SignImmE, SrcBE);
     alu ALUE(SrcAE, SrcBE, ALUControlE, ALUOutput);
-
+    always @(*)
+        begin
+            WriteDataE <= ForwardHandlingReg2ALU;
+            WriteRegE <= WriteRegE_internal;
+            Hazard_WriteRegE <= WriteRegE_internal;
+        end
 endmodule
