@@ -31,6 +31,7 @@ module fetch(
 
    //interior wires
    wire [31:0] pc_f; // from reg_f to adder and instruction memory
+
    wire [31:0] constant_four = 32'd4; // constant value of 4 for pc + 4
    wire [31:0] if_jump; // address to jump to if jumping
    wire [31:0] jump_or_not; // jump address or pc+4

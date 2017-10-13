@@ -20,12 +20,12 @@ module reg_f(
     out1 = 32'h00400020;
   end
 
-  //if negedge clk, pass value through
+  //if posedge clk, and enabled, pass value through
   always @(posedge clk) begin
-    //if(enable)
+    if(enable)
       out1 <= in1;
-    //else
-      //out1 <= 0;
+  //  else
+    //  out1 <= 0;
   end
 
 endmodule

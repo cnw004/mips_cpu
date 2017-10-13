@@ -26,7 +26,7 @@ module reg_d(
     out1 <= 0;
     out2 <= 0;
   end
-  
+
   //at negedge clk, pass value through
   always @(posedge clk) begin
     if(clr) begin
@@ -35,7 +35,7 @@ module reg_d(
     end
     if(enable) begin
       out1 <= in1;
-      out2 <=in2;
+      out2 <= in2;
     end
   end
 

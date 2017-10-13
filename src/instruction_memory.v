@@ -18,9 +18,6 @@ module instruction_memory(
   //this will hold the word address
   reg [31:0] real_addr;
 
-  initial begin
-    //instruction <= 0;
-  end
   //change into a word address
   always @(addr)
     begin
@@ -36,6 +33,7 @@ module instruction_memory(
   initial
     begin
       $readmemh("add_test.v", memory);
+      instruction = 0;
     end
 
 endmodule
