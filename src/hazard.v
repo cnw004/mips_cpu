@@ -74,7 +74,7 @@ end
 
 
 //should this be posedge or negedge??
-always @(posedge clk) begin
+always @(*) begin
 
 //this is for M->E and E->E for the Rs register
   if((RsE != `zero) && (RsE == WriteRegM) && RegWriteM)
