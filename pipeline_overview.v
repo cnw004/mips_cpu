@@ -176,7 +176,8 @@ module pipeline_overview();
   memory memory_module(.syscall(memory_in_syscall), .RegWriteM(memory_in_RegWriteM), .MemToRegM(memory_in_MemToRegM),
   .MemWriteM(memory_in_MemWriteM), .instruction(memory_in_instruction), .v0(memory_in_v0), .a0(memory_in_a0), .ALUOutM(decode_in_alu_out),
   .WriteDataM(memory_in_WritedataM), .WriteRegM(memory_in_WriteRegM), .RegWriteW(wb_reg_in_RegWriteW), .MemtoRegM_out(wb_reg_in_MemtoRegM_out),
-  .RD(wb_reg_in_RD), .WriteRegM_out(wb_reg_in_WriteRegM_out), .WriteRegM_out_hazard(hazard_in_WriteRegM), .ALUOutW(wb_reg_in_ALUOut));
+  .RD(wb_reg_in_RD), .WriteRegM_out(wb_reg_in_WriteRegM_out), .WriteRegM_out_hazard(hazard_in_WriteRegM), .ALUOutW(wb_reg_in_ALUOut),
+  .ALUOut_forwarded(execute_in_ForwardExecVal));
 
   //writeback register module declaration
   reg_w reg_w_module(.clk(clock), .in2(wb_reg_in_RegWriteW), .in3(wb_reg_in_MemtoRegM_out), .in4(wb_reg_in_RD),

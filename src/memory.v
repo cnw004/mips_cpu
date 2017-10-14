@@ -21,6 +21,7 @@
   - WriteRegM_out: reg to be passed into writeback register
   - WriteRegM_out_hazard: reg to be passed into hazard unit
   - ALUOutW: Passes ALUOutput to the W stage
+  - ALUOut_forwarded: Passed to exec stage
 
 
  modules included:
@@ -42,7 +43,8 @@ module memory(
   output wire [31:0] RD,
   output wire [4:0] WriteRegM_out,
   output wire [4:0] WriteRegM_out_hazard,
-  output wire [31:0] ALUOutW
+  output wire [31:0] ALUOutW,
+  output reg [31:0] ALUOut_forwarded
   );
 
   data_memory my_data_memory(MemWriteM, ALUOutM, WriteDataM, RD);
@@ -54,6 +56,13 @@ module memory(
   assign MemtoRegM_out = MemToRegM;
   assign syscall_out = syscall;
   assign RegWriteW = RegWriteM;
+
+  always @(*)
+    ALUOut_forwarded <= ALUOutM;
+
+  initial begin
+      ALUOut_forwarded <= 32'b0;
+  end
 
 
 endmodule

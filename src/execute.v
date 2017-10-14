@@ -54,5 +54,7 @@ module execute(
             WriteDataE <= ForwardHandlingReg2ALU;
             WriteRegE <= WriteRegE_internal;
             Hazard_WriteRegE <= WriteRegE_internal;
+            RsEHazard <= RsE;
+            RtEHazard <= RtE;
         end
 endmodule
