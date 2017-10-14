@@ -31,7 +31,7 @@ end
         // if v0 is 1 then it is a print syscall
         32'd1: $display("a0 is: %d", a0);
         //if v0 is 10 then the syscall is an exit
-        32'd10: begin
+        32'd10: $finish;
 			// $display("EXIT");
 			// $display("Showing statistics...");
 			// $display("------------------");
@@ -39,8 +39,7 @@ end
 			// $display("num instructions: %d", num_instructions);
 			// $display("IPC: %d", num_instructions/clk_counter);
 			// $display("Program ran in %t", $realtime);
-			$finish;
-		end
+
         default: $display("DEFAULT CASE IN SYSTEM_CALL");
       endcase
     end
