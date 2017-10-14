@@ -56,6 +56,7 @@ module decode(
    input wire [31:0]   instrD,
    input wire [31:0]   write_from_wb,
    input wire [31:0]   alu_out,
+   input wire [4:0]    write_register,
    input wire    forwardAD,
    input wire    forwardBD,
    input wire          regWriteW, // regWrite control signal stemming from wb module
@@ -102,7 +103,7 @@ module decode(
    wire [31:0] 	     jal_address; // possible branch address
    //instantiating and wiring together modules
    control controller(instrD[31:26], instrD[5:0], out6, out16, jal, out17, out18, memRead, out3, out4, out13, out5, out2, out1);
-   registers regs(~clk, jal, regWriteW, instrD[25:21], instrD[20:16], instrD[4:0], write_data, out7, out8, out1c, out1b);
+   registers regs(~clk, jal, regWriteW, instrD[25:21], instrD[20:16], write_register, write_data, out7, out8, out1c, out1b);
    sign_extend signs(instrD[15:0], out12);
    adder add_for_branch(out12 << 2, pc_plus_4_decoded, out14);
    adder add_for_jal(pc_plus_4_decoded, 32'd4, jal_address);

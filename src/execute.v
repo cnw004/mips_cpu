@@ -16,8 +16,8 @@ module execute(
     input wire [1:0] ForwardAE,
     input wire [1:0] ForwardBE,
     //inputs for forwarding
-    input wire [31:0] ForwardMemVal, //01 input of mux3ALUInput 1&2 forward from exec
-    input wire [31:0] ForwardExecVal, //10 input of mux3ALUInput 1&2 foward from mem
+    input wire [31:0] ForwardMemVal, //01 input of mux3ALUInput 1&2 forward from mem
+    input wire [31:0] ForwardExecVal, //10 input of mux3ALUInput 1&2 foward from exec
     //outputs to hazard unit
     output reg [4:0] RsEHazard, //output RsE value right to hazards
     output reg [4:0] RtEHazard, //output RtE value right to hazards

@@ -32,6 +32,7 @@ module pipeline_overview();
   wire decode_in_forwardAD;
   wire decode_in_forwardBD;
   wire decode_in_regWriteW; // regwrite control signal from write back
+  wire [4:0] decode_in_write_register;
 
   //inputs for execute register
   wire execute_reg_in_syscall;
@@ -137,7 +138,7 @@ module pipeline_overview();
   //decode declaration
   decode decode_module(.clk(clock),
   .pc_plus_4_decoded(decode_in_pc_plus_4), .instrD(decode_in_instrD), .write_from_wb(decode_in_write_from_wb),
-  .alu_out(decode_in_alu_out), .forwardAD(decode_in_forwardAD), .forwardBD(decode_in_forwardBD), .regWriteW(decode_in_regWriteW),
+  .alu_out(decode_in_alu_out), .forwardAD(decode_in_forwardAD), .forwardBD(decode_in_forwardBD), .regWriteW(decode_in_regWriteW), .write_register(decode_in_write_register),
   .out1(execute_reg_in_syscall), .out1a(execute_reg_in_instruction), .out1b(execute_reg_in_a0), .out1c(execute_reg_in_v0),
   .out2(execute_reg_in_reg_write), .out3(execute_reg_in_mem_to_reg), .out4(execute_reg_in_alu_ctrl),
   .out5(execute_reg_in_alu_src), .out6(execute_reg_in_reg_dst), .out7(execute_reg_in_rd1), .out8(execute_reg_in_rd2),
@@ -184,7 +185,8 @@ module pipeline_overview();
 
   //writeback module declaration
   writeback wb_module(.MemToRegW(wb_in_MemToRegW), .ReadDataW(wb_in_ReadDataW), .ALUOutW(wb_in_ALUOutW),
-  .WriteRegW(wb_in_WriteRegW), .WriteRegW_out(hazard_in_WriteRegW), .ResultW(decode_in_write_from_wb));
+  .WriteRegW(wb_in_WriteRegW), .WriteRegW_out(hazard_in_WriteRegW), .ResultW(decode_in_write_from_wb), .WriteRegW_out_toRegisters(decode_in_write_register),
+  .ResultW_forwarded(execute_in_ForwardMemVal));
 
   //hazard module declaration
   hazard hazard_module(.clk(clock), .branchD(hazard_in_branchD), .RsD(hazard_in_RsD), .RtD(hazard_in_RtD),

@@ -21,11 +21,21 @@ module writeback(
    input wire [31:0] ALUOutW,
    input wire [4:0] WriteRegW,
    output wire [4:0] WriteRegW_out,
-   output wire [31:0] ResultW
+   output wire [31:0] ResultW,
+   output reg [31:0] ResultW_forwarded,
+   output reg [4:0] WriteRegW_out_toRegisters
    );
 
    mux my_mux(MemToRegW, ALUOutW, ReadDataW, ResultW);
 
    assign WriteRegW_out = WriteRegW;
-
+   always @(*)
+        begin
+        WriteRegW_out_toRegisters <= WriteRegW;
+        ResultW_forwarded <= ResultW;
+        end
+    initial begin
+        ResultW_forwarded <= 32'b0;
+        WriteRegW_out_toRegisters <= 32'b0;
+    end
 endmodule
