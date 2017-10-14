@@ -1,7 +1,6 @@
 /*
  This module wires together everything in the decode stage.
  inputs:
-   enable: value of not stallD control signal from the Hazard unit
    clk: our clock
    pc_plus_4: the possible next pc if not jump/branch
    instr: the instruction

@@ -26,7 +26,7 @@ module fetch(
    input wire [31:0] jump_addr,
    input wire 	     enable,
    input wire 	     clk,
-   output reg [31:0] instr,
+   output wire [31:0] instr,
    output reg [31:0] pc_plus_4); // also gets used by jump_mux
 
    //interior wires
@@ -36,7 +36,7 @@ module fetch(
    wire [31:0] if_jump; // address to jump to if jumping
    wire [31:0] jump_or_not; // jump address or pc+4
    wire [31:0] pc; // address result of jump/branch muxes
-   wire [31:0] instr_internal;
+   // wire [31:0] instr_internal;
    wire [31:0] pc_plus_4_internal;
 
    initial begin
@@ -48,7 +48,7 @@ module fetch(
 
    always @(*) begin
       pc_plus_4 <= pc_plus_4_internal;
-      instr <= instr_internal;
+    //   instr <= instr_internal;
    end
 
    //instantiating and wiring together modules
@@ -58,6 +58,6 @@ module fetch(
    mux next_pc(branch, jump_or_not, branch_addr, pc);
    reg_f so_fetch(clk, enable, pc,pc_f);
 
-   instruction_memory instr_mem(pc_f, instr_internal);
+   instruction_memory instr_mem(pc_f, instr);
 
 endmodule
