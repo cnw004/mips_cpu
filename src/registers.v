@@ -46,27 +46,50 @@ module registers(input wire clk, //assume passing in negation of the rest of the
     end
   end
 
-  always @(posedge clk) begin
-    //when clk is positive, read
+//   always @(posedge clk) begin
+//     //when clk is positive, read
+//     read1 <= reg_mem[reg1];
+//     read2 <= reg_mem[reg2];
+//     v0 <= reg_mem[`v0];
+//     a0 <= reg_mem[`a0];
+//     end
+//
+// //TODO: Not sure if jal should be written to if reg_write is not set to 1
+//   always @(negedge clk) begin
+//     //when clk is negative, write.
+//
+//       //write to $ra when jal flag is 1
+//       if(jal == 1) begin
+//         reg_mem[31] <= write_data; //31 is $ra
+//       end
+//       //otherwise, check if reg_write is activated and write to it.
+//       else begin
+//         if(reg_write == 1) begin
+//           reg_mem[write_reg] <= write_data;
+//         end
+//       end
+//   end
+
+//new method per Prof Marchiori's Recommendation
+always @(*) begin
+    if(jal == 1) begin
+      reg_mem[31] <= write_data; //31 is $ra
+    end
+    //otherwise, check if reg_write is activated and write to it.
+    else begin
+      if(reg_write == 1) begin
+        reg_mem[write_reg] <= write_data;
+      end
+    end
+
+    #1;
     read1 <= reg_mem[reg1];
     read2 <= reg_mem[reg2];
     v0 <= reg_mem[`v0];
     a0 <= reg_mem[`a0];
-    end
 
-//TODO: Not sure if jal should be written to if reg_write is not set to 1
-  always @(negedge clk) begin
-    //when clk is negative, write.
+    $display("t0 value: %d\tt1 value: %d\ta0 value: %d\tv0 value: %d\t\n", reg_mem[`t0], reg_mem[`t1], reg_mem[`a0], reg_mem[`v0]);
 
-      //write to $ra when jal flag is 1
-      if(jal == 1) begin
-        reg_mem[31] <= write_data; //31 is $ra
-      end
-      //otherwise, check if reg_write is activated and write to it.
-      else begin
-        if(reg_write == 1) begin
-          reg_mem[write_reg] <= write_data;
-        end
-      end
-  end
+end
+
 endmodule

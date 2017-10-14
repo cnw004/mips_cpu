@@ -78,8 +78,8 @@ module reg_m(input wire clk,
     out6 <= in6;
     out7 <= in7;
     out8 <= in8;
-    out9 <= out9;
-    out10 <= out10;
+    out9 <= in9;
+    out10 <= in10;
     out11 <= in3;
     out12 <= in2;
   end

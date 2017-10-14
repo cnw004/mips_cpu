@@ -143,6 +143,9 @@ end
       out11 <= in11;
       out12 <= in12;
       out13 <= in13;
+      out14 <= in14;
+      out15 <= in15;
+      out16 <= in16;
       out17 <= in3;
       out18 <= in2;
     end

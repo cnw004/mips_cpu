@@ -16,8 +16,13 @@ module data_memory(
   input wire [31:0] write_data,
   output reg [31:0] read_data);
 
+  integer i;
+
   initial begin
     read_data <= 0;
+    for(i = 32'h7FFF0000; i < 32'h7FFFFFFC; i = i + 1) begin
+      data_mem[i] = 32'd0; //set all values to 0 initially
+    end
   end
 
   //declare the memory

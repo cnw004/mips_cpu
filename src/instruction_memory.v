@@ -30,7 +30,7 @@ module instruction_memory(
         end
         if (set == 1) begin
             instruction <= 0;
-            set = 0;
+            set <= 0;
         end
     end
 
