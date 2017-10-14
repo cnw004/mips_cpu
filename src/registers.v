@@ -72,7 +72,7 @@ module registers(input wire clk, //assume passing in negation of the rest of the
 
 //new method per Prof Marchiori's Recommendation
 always @(*) begin
-    #1;
+    #5;
     if(jal == 1) begin
       reg_mem[31] <= write_data; //31 is $ra
     end
