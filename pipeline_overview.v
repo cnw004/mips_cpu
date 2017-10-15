@@ -37,8 +37,6 @@ module pipeline_overview();
   //inputs for execute register
   wire execute_reg_in_syscall;
   wire [31:0] execute_reg_in_instruction;
-  wire [31:0] execute_reg_in_a0;
-  wire [31:0] execute_reg_in_v0;
   wire execute_reg_in_reg_write;
   wire execute_reg_in_mem_to_reg;
   wire [2:0] execute_reg_in_alu_ctrl;
@@ -74,8 +72,6 @@ module pipeline_overview();
   wire memory_reg_in_mem_to_reg;
   wire memory_reg_in_mem_write;
   wire [31:0] memory_reg_in_instruction;
-  wire [31:0] memory_reg_in_a0;
-  wire [31:0] memory_reg_in_v0;
   wire [31:0] memory_reg_in_ALUOutput;
   wire [31:0] memory_reg_in_WriteDataE;
   wire [4:0] memory_reg_in_WriteRegE;
@@ -139,7 +135,7 @@ module pipeline_overview();
   decode decode_module(.clk(clock),
   .pc_plus_4_decoded(decode_in_pc_plus_4), .instrD(decode_in_instrD), .write_from_wb(decode_in_write_from_wb),
   .alu_out(decode_in_alu_out), .forwardAD(decode_in_forwardAD), .forwardBD(decode_in_forwardBD), .regWriteW(decode_in_regWriteW), .write_register(decode_in_write_register),
-  .out1(execute_reg_in_syscall), .out1a(execute_reg_in_instruction), .out1b(execute_reg_in_a0), .out1c(execute_reg_in_v0),
+  .out1(execute_reg_in_syscall), .out1a(execute_reg_in_instruction), .out1b(memory_in_a0), .out1c(memory_in_v0),
   .out2(execute_reg_in_reg_write), .out3(execute_reg_in_mem_to_reg), .out4(execute_reg_in_alu_ctrl),
   .out5(execute_reg_in_alu_src), .out6(execute_reg_in_reg_dst), .out7(execute_reg_in_rd1), .out8(execute_reg_in_rd2),
   .out9(execute_reg_in_rsD), .out10(execute_reg_in_rtD), .out11(execute_reg_in_rdE), .out12(execute_reg_in_sign_immediate),
@@ -151,11 +147,10 @@ module pipeline_overview();
   reg_e reg_e_module(.clk(clock), .clr(execute_reg_in_clr), .in1(execute_reg_in_syscall), .in2(execute_reg_in_reg_write),
   .in3(execute_reg_in_mem_to_reg), .in4(execute_reg_in_alu_ctrl), .in5(execute_reg_in_alu_src), .in6(execute_reg_in_reg_dst),
   .in7(execute_reg_in_rd1), .in8(execute_reg_in_rd2), .in9(execute_reg_in_rsD), .in10(execute_reg_in_rtD), .in11(execute_reg_in_rdE),
-  .in12(execute_reg_in_sign_immediate), .in13(execute_reg_in_mem_write), .in14(execute_reg_in_a0), .in15(execute_reg_in_v0),
-  .in16(execute_reg_in_instruction), .out1(memory_reg_in_syscall), .out2(memory_reg_in_reg_write), .out3(memory_reg_in_mem_to_reg),
+  .in12(execute_reg_in_sign_immediate), .in13(execute_reg_in_mem_write), .in16(execute_reg_in_instruction), .out1(memory_reg_in_syscall), .out2(memory_reg_in_reg_write), .out3(memory_reg_in_mem_to_reg),
   .out4(execute_in_ALUControlE), .out5(execute_in_ALUSrcE), .out6(execute_in_RegDstE), .out7(execute_in_reg1), .out8(execute_in_reg2),
   .out9(execute_in_RsE), .out10(execute_in_RtE), .out11(execute_in_RdE), .out12(execute_in_SignImmE), .out13(memory_reg_in_mem_write),
-  .out14(memory_reg_in_a0), .out15(memory_reg_in_v0), .out16(memory_reg_in_instruction), .out17(hazard_in_MemtoRegE), .out18(hazard_in_RegWriteE));
+  .out16(memory_reg_in_instruction), .out17(hazard_in_MemtoRegE), .out18(hazard_in_RegWriteE));
 
   //execute register declaration
   execute execute_module(.ALUControlE(execute_in_ALUControlE), .ALUSrcE(execute_in_ALUSrcE), .RegDstE(execute_in_RegDstE),
@@ -167,14 +162,14 @@ module pipeline_overview();
   //memory register module declaration
   reg_m reg_m_module(.clk(clock), .in1(memory_reg_in_syscall), .in2(memory_reg_in_reg_write),
   .in3(memory_reg_in_mem_to_reg), .in4(memory_reg_in_mem_write), .in5(memory_reg_in_ALUOutput),
-  .in6(memory_reg_in_WriteDataE), .in7(memory_reg_in_WriteRegE), .in8(memory_reg_in_a0), .in9(memory_reg_in_v0),
+  .in6(memory_reg_in_WriteDataE), .in7(memory_reg_in_WriteRegE),
   .in10(memory_reg_in_instruction), .out1(memory_in_syscall), .out2(memory_in_RegWriteM), .out3(memory_in_MemToRegM),
   .out4(memory_in_MemWriteM), .out5(decode_in_alu_out), .out6(memory_in_WritedataM), .out7(memory_in_WriteRegM),
-  .out8(memory_in_a0), .out9(memory_in_v0), .out10(memory_in_instruction), .out11(hazard_in_MemtoRegM), .out12(hazard_in_RegWriteM));
+  .out10(memory_in_instruction), .out11(hazard_in_MemtoRegM), .out12(hazard_in_RegWriteM));
 
   //memory module declaration
   memory memory_module(.syscall(memory_in_syscall), .RegWriteM(memory_in_RegWriteM), .MemToRegM(memory_in_MemToRegM),
-  .MemWriteM(memory_in_MemWriteM), .instruction(memory_in_instruction), .v0(execute_reg_in_v0), .a0(execute_reg_in_a0), .ALUOutM(decode_in_alu_out),
+  .MemWriteM(memory_in_MemWriteM), .instruction(memory_in_instruction), .v0(memory_in_v0), .a0(memory_in_a0), .ALUOutM(decode_in_alu_out),
   .WriteDataM(memory_in_WritedataM), .WriteRegM(memory_in_WriteRegM), .RegWriteW(wb_reg_in_RegWriteW), .MemtoRegM_out(wb_reg_in_MemtoRegM_out),
   .RD(wb_reg_in_RD), .WriteRegM_out(wb_reg_in_WriteRegM_out), .WriteRegM_out_hazard(hazard_in_WriteRegM), .ALUOutW(wb_reg_in_ALUOut),
   .ALUOut_forwarded(execute_in_ForwardExecVal));

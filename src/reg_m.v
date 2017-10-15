@@ -10,8 +10,6 @@ inputs:
   - in5: aluout [31:0]
   - in6: writeDataE [31:0]
   - in7: writeRegE [4:0]
-  - in8: a0
-  - in9: v0
   - in10: Instruction
 
 output:
@@ -22,8 +20,6 @@ output:
 - out5: aluout [31:0]
 - out6: writeDataE [31:0]
 - out7: writeRegE [4:0]
-- out8: a0
-- out9: v0
 - out10: Instruction
 - out11: hazard_in_MemtoReg
 - out12: hazard_in_RegWriteM
@@ -37,8 +33,6 @@ module reg_m(input wire clk,
   input wire [31:0] in5,
   input wire [31:0] in6,
   input wire [4:0] in7,
-  input wire [31:0] in8, //a0
-  input wire [31:0] in9, //v0
   input wire [31:0] in10, //instruction
   output reg out1,
   output reg out2,
@@ -47,8 +41,6 @@ module reg_m(input wire clk,
   output reg [31:0] out5,
   output reg [31:0] out6,
   output reg [4:0] out7,
-  output reg [31:0] out8, //a0
-  output reg [31:0] out9, //v0
   output reg [31:0] out10, //instruction);
   output reg out11,
   output reg out12);
@@ -62,8 +54,6 @@ module reg_m(input wire clk,
     out5 <= 0;
     out6 <= 0;
     out7 <= 0;
-    out8 <= 0;
-    out9 <= 0;
     out10 <= 0;
     out11 <= 0;
     out12 <= 0;
@@ -77,8 +67,6 @@ module reg_m(input wire clk,
     out5 <= in5;
     out6 <= in6;
     out7 <= in7;
-    out8 <= in8;
-    out9 <= in9;
     out10 <= in10;
     out11 <= in3;
     out12 <= in2;
