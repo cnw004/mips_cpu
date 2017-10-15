@@ -124,7 +124,7 @@ module pipeline_overview();
   wire [4:0] hazard_in_WriteRegM; // from memory
   wire hazard_in_RegWriteW; //from writeback register
   wire [4:0] hazard_in_WriteRegW; //from writeback
-  wire [4:0] hazard_in_RsM;
+  wire [4:0] hazard_in_RdM;
 
   // fetch declaration
   fetch fetch_module(.jump(fetch_in_jump), .jump_reg(fetch_in_jump_reg),
@@ -170,9 +170,9 @@ module pipeline_overview();
   reg_m reg_m_module(.clk(clock), .in1(memory_reg_in_syscall), .in2(memory_reg_in_reg_write),
   .in3(memory_reg_in_mem_to_reg), .in4(memory_reg_in_mem_write), .in5(memory_reg_in_ALUOutput),
   .in6(memory_reg_in_WriteDataE), .in7(memory_reg_in_WriteRegE),
-  .in10(memory_reg_in_instruction), .RsE(execute_in_RsE), .out1(memory_in_syscall), .out2(memory_in_RegWriteM), .out3(memory_in_MemToRegM),
+  .in10(memory_reg_in_instruction), .RdE(execute_in_RdE), .out1(memory_in_syscall), .out2(memory_in_RegWriteM), .out3(memory_in_MemToRegM),
   .out4(memory_in_MemWriteM), .out5(decode_in_alu_out), .out6(memory_in_WritedataM), .out7(memory_in_WriteRegM),
-  .out10(memory_in_instruction), .out11(hazard_in_MemtoRegM), .out12(hazard_in_RegWriteM), .RsM(hazard_in_RsM));
+  .out10(memory_in_instruction), .out11(hazard_in_MemtoRegM), .out12(hazard_in_RegWriteM), .RdM(hazard_in_RdM));
 
   //memory module declaration
   memory memory_module(.syscall(memory_in_syscall), .RegWriteM(memory_in_RegWriteM), .MemToRegM(memory_in_MemToRegM),
@@ -196,7 +196,7 @@ module pipeline_overview();
 
   //hazard module declaration
   hazard hazard_module(.clk(clock), .branchD(hazard_in_branchD), .RsD(hazard_in_RsD), .RtD(hazard_in_RtD),
-  .RsE(hazard_in_RsE), .RtE(hazard_in_RtE), .RsM(hazard_in_RsM), .MemToRegE(hazard_in_MemtoRegE), .RegWriteE(hazard_in_RegWriteE),
+  .RsE(hazard_in_RsE), .RtE(hazard_in_RtE), .RdM(hazard_in_RdM), .MemToRegE(hazard_in_MemtoRegE), .RegWriteE(hazard_in_RegWriteE),
   .WriteRegE(hazard_in_WriteRegE), .WriteRegM(hazard_in_WriteRegM), .MemToRegM(hazard_in_MemtoRegM),
   .RegWriteM(hazard_in_RegWriteM), .WriteRegW(hazard_in_WriteRegW), .RegWriteW(hazard_in_RegWriteW),
   .StallF(fetch_in_enable), .StallD(decode_reg_in_enable), .ForwardAD(decode_in_forwardAD), .ForwardBD(decode_in_forwardBD),

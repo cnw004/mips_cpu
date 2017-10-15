@@ -49,7 +49,7 @@ module memory(
   output wire syscall_out
   );
 
-  wire WriteDataMuxOut;
+  wire [31:0] WriteDataMuxOut;
   data_memory my_data_memory(MemWriteM, ALUOutM, WriteDataMuxOut, RD);
   mux forwardMM_mux(ForwardMM, WriteDataM, ResultW, WriteDataMuxOut);
 
