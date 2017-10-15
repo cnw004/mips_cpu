@@ -23,10 +23,11 @@ initial begin
 	time_var = $realtime;
 end
 
-  always @ ( * ) begin
+  always @ (a0, v0) begin
 	clk_counter = clk_counter + 1;
     //check func_code and syscall_control to decide if the instruction is a syscall
     if((instruction[5:0] == 6'hc) && (syscall_control == 1'b1)) begin
+      $display("SYSCALL CALLED");
       case(v0)
         // if v0 is 1 then it is a print syscall
         32'd1: $display("a0 is: %d", a0);
