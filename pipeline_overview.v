@@ -81,10 +81,12 @@ module pipeline_overview();
   wire memory_in_RegWriteM;
   wire memory_in_MemToRegM;
   wire memory_in_MemWriteM;
+  wire memory_in_ForwardMM;
   wire [31:0] memory_in_instruction;
   //wire aluout is declared in decode
   wire [31:0] memory_in_WritedataM;
   wire [4:0] memory_in_WriteRegM;
+  wire [31:0] memory_in_resultW;
 
   //inputs for writeback register module
   wire wb_reg_in_RegWriteW;
@@ -122,6 +124,7 @@ module pipeline_overview();
   wire [4:0] hazard_in_WriteRegM; // from memory
   wire hazard_in_RegWriteW; //from writeback register
   wire [4:0] hazard_in_WriteRegW; //from writeback
+  wire [4:0] hazard_in_RsM;
 
   // fetch declaration
   fetch fetch_module(.jump(fetch_in_jump), .jump_reg(fetch_in_jump_reg),
@@ -167,14 +170,14 @@ module pipeline_overview();
   reg_m reg_m_module(.clk(clock), .in1(memory_reg_in_syscall), .in2(memory_reg_in_reg_write),
   .in3(memory_reg_in_mem_to_reg), .in4(memory_reg_in_mem_write), .in5(memory_reg_in_ALUOutput),
   .in6(memory_reg_in_WriteDataE), .in7(memory_reg_in_WriteRegE),
-  .in10(memory_reg_in_instruction), .out1(memory_in_syscall), .out2(memory_in_RegWriteM), .out3(memory_in_MemToRegM),
+  .in10(memory_reg_in_instruction), .RsE(execute_in_RsE), .out1(memory_in_syscall), .out2(memory_in_RegWriteM), .out3(memory_in_MemToRegM),
   .out4(memory_in_MemWriteM), .out5(decode_in_alu_out), .out6(memory_in_WritedataM), .out7(memory_in_WriteRegM),
-  .out10(memory_in_instruction), .out11(hazard_in_MemtoRegM), .out12(hazard_in_RegWriteM));
+  .out10(memory_in_instruction), .out11(hazard_in_MemtoRegM), .out12(hazard_in_RegWriteM), .RsM(hazard_in_RsM));
 
   //memory module declaration
   memory memory_module(.syscall(memory_in_syscall), .RegWriteM(memory_in_RegWriteM), .MemToRegM(memory_in_MemToRegM),
   .MemWriteM(memory_in_MemWriteM), .instruction(memory_in_instruction), .ALUOutM(decode_in_alu_out),
-  .WriteDataM(memory_in_WritedataM), .WriteRegM(memory_in_WriteRegM), .RegWriteW(wb_reg_in_RegWriteW), .MemtoRegM_out(wb_reg_in_MemtoRegM_out),
+  .WriteDataM(memory_in_WritedataM), .WriteRegM(memory_in_WriteRegM), .ForwardMM(memory_in_ForwardMM), .ResultW(memory_in_resultW), .RegWriteW(wb_reg_in_RegWriteW), .MemtoRegM_out(wb_reg_in_MemtoRegM_out),
   .RD(wb_reg_in_RD), .WriteRegM_out(wb_reg_in_WriteRegM_out), .WriteRegM_out_hazard(hazard_in_WriteRegM), .ALUOutW(wb_reg_in_ALUOut),
   .ALUOut_forwarded(execute_in_ForwardExecVal), .instruction_out(wb_reg_in_instruction), .syscall_out(wb_reg_in_syscall));
 
@@ -189,15 +192,15 @@ module pipeline_overview();
   writeback wb_module(.MemToRegW(wb_in_MemToRegW), .ReadDataW(wb_in_ReadDataW), .ALUOutW(wb_in_ALUOutW),
   .WriteRegW(wb_in_WriteRegW), .instruction_in(wb_in_instruction), .syscall_in(wb_in_syscall),
   .a0(wb_in_a0), .v0(wb_in_v0), .WriteRegW_out(hazard_in_WriteRegW), .ResultW(decode_in_write_from_wb), .WriteRegW_out_toRegisters(decode_in_write_register),
-  .ResultW_forwarded(execute_in_ForwardMemVal));
+  .ResultW_forwarded(execute_in_ForwardMemVal), .ResultW_forwardedMM(memory_in_resultW));
 
   //hazard module declaration
   hazard hazard_module(.clk(clock), .branchD(hazard_in_branchD), .RsD(hazard_in_RsD), .RtD(hazard_in_RtD),
-  .RsE(hazard_in_RsE), .RtE(hazard_in_RtE), .MemToRegE(hazard_in_MemtoRegE), .RegWriteE(hazard_in_RegWriteE),
+  .RsE(hazard_in_RsE), .RtE(hazard_in_RtE), .RsM(hazard_in_RsM), .MemToRegE(hazard_in_MemtoRegE), .RegWriteE(hazard_in_RegWriteE),
   .WriteRegE(hazard_in_WriteRegE), .WriteRegM(hazard_in_WriteRegM), .MemToRegM(hazard_in_MemtoRegM),
   .RegWriteM(hazard_in_RegWriteM), .WriteRegW(hazard_in_WriteRegW), .RegWriteW(hazard_in_RegWriteW),
   .StallF(fetch_in_enable), .StallD(decode_reg_in_enable), .ForwardAD(decode_in_forwardAD), .ForwardBD(decode_in_forwardBD),
-  .FlushE(execute_reg_in_clr), .ForwardAE(execute_in_ForwardAE), .ForwardBE(execute_in_ForwardBE));
+  .FlushE(execute_reg_in_clr), .ForwardAE(execute_in_ForwardAE), .ForwardBE(execute_in_ForwardBE), .ForwardMM(memory_in_ForwardMM));
 
 
 

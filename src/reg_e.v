@@ -30,8 +30,8 @@ output:
 - out6: regDst
 - out7: output from register RD1
 - out8: output from register RD2
-- out9: RsD (25:21)
-- out10: RtD (20:16)
+- out9: RsE (25:21)
+- out10: RtE (20:16)
 - out11: RdE (15:11)
 - out12: SignImmD (31:0)
 - out13: memWrite
