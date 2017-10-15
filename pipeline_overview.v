@@ -82,8 +82,6 @@ module pipeline_overview();
   wire memory_in_MemToRegM;
   wire memory_in_MemWriteM;
   wire [31:0] memory_in_instruction;
-  wire [31:0] memory_in_v0;
-  wire [31:0] memory_in_a0;
   //wire aluout is declared in decode
   wire [31:0] memory_in_WritedataM;
   wire [4:0] memory_in_WriteRegM;
@@ -94,6 +92,8 @@ module pipeline_overview();
   wire [31:0] wb_reg_in_RD;
   wire [31:0] wb_reg_in_ALUOut;
   wire [4:0] wb_reg_in_WriteRegM_out;
+  wire [31:0] wb_reg_in_instruction;
+  wire wb_reg_in_syscall;
 
   //inputs for writeback module
   //ALSO wire decode_in_regWriteW; // regwrite control signal from write back
@@ -102,6 +102,10 @@ module pipeline_overview();
   wire [31:0] wb_in_ReadDataW;
   wire [31:0] wb_in_ALUOutW;
   wire [4:0] wb_in_WriteRegW;
+  wire [31:0] wb_in_instruction;
+  wire wb_in_syscall;
+  wire [31:0] wb_in_a0;
+  wire [31:0] wb_in_v0;
 
 
   //inputs for hazard module
@@ -135,7 +139,7 @@ module pipeline_overview();
   decode decode_module(.clk(clock),
   .pc_plus_4_decoded(decode_in_pc_plus_4), .instrD(decode_in_instrD), .write_from_wb(decode_in_write_from_wb),
   .alu_out(decode_in_alu_out), .forwardAD(decode_in_forwardAD), .forwardBD(decode_in_forwardBD), .regWriteW(decode_in_regWriteW), .write_register(decode_in_write_register),
-  .out1(execute_reg_in_syscall), .out1a(execute_reg_in_instruction), .out1b(memory_in_a0), .out1c(memory_in_v0),
+  .out1(execute_reg_in_syscall), .out1a(execute_reg_in_instruction), .out1b(wb_in_a0), .out1c(wb_in_v0),
   .out2(execute_reg_in_reg_write), .out3(execute_reg_in_mem_to_reg), .out4(execute_reg_in_alu_ctrl),
   .out5(execute_reg_in_alu_src), .out6(execute_reg_in_reg_dst), .out7(execute_reg_in_rd1), .out8(execute_reg_in_rd2),
   .out9(execute_reg_in_rsD), .out10(execute_reg_in_rtD), .out11(execute_reg_in_rdE), .out12(execute_reg_in_sign_immediate),
@@ -169,19 +173,22 @@ module pipeline_overview();
 
   //memory module declaration
   memory memory_module(.syscall(memory_in_syscall), .RegWriteM(memory_in_RegWriteM), .MemToRegM(memory_in_MemToRegM),
-  .MemWriteM(memory_in_MemWriteM), .instruction(memory_in_instruction), .v0(memory_in_v0), .a0(memory_in_a0), .ALUOutM(decode_in_alu_out),
+  .MemWriteM(memory_in_MemWriteM), .instruction(memory_in_instruction), .ALUOutM(decode_in_alu_out),
   .WriteDataM(memory_in_WritedataM), .WriteRegM(memory_in_WriteRegM), .RegWriteW(wb_reg_in_RegWriteW), .MemtoRegM_out(wb_reg_in_MemtoRegM_out),
   .RD(wb_reg_in_RD), .WriteRegM_out(wb_reg_in_WriteRegM_out), .WriteRegM_out_hazard(hazard_in_WriteRegM), .ALUOutW(wb_reg_in_ALUOut),
-  .ALUOut_forwarded(execute_in_ForwardExecVal));
+  .ALUOut_forwarded(execute_in_ForwardExecVal), .instruction_out(wb_reg_in_instruction), .syscall_out(wb_reg_in_syscall));
 
   //writeback register module declaration
   reg_w reg_w_module(.clk(clock), .in2(wb_reg_in_RegWriteW), .in3(wb_reg_in_MemtoRegM_out), .in4(wb_reg_in_RD),
-  .in5(wb_reg_in_ALUOut), .in6(wb_reg_in_WriteRegM_out), .out2(decode_in_regWriteW), .out3(wb_in_MemToRegW), .out4(wb_in_ReadDataW),
-  .out5(wb_in_ALUOutW), .out6(wb_in_WriteRegW), .out7(hazard_in_RegWriteW));
+  .in5(wb_reg_in_ALUOut), .in6(wb_reg_in_WriteRegM_out), .instruction_in(wb_reg_in_instruction), .syscall_in(wb_reg_in_syscall),
+   .out2(decode_in_regWriteW), .out3(wb_in_MemToRegW), .out4(wb_in_ReadDataW),
+  .out5(wb_in_ALUOutW), .out6(wb_in_WriteRegW), .out7(hazard_in_RegWriteW), .instruction_out(wb_in_instruction),
+  .syscall_out(wb_in_syscall));
 
   //writeback module declaration
   writeback wb_module(.MemToRegW(wb_in_MemToRegW), .ReadDataW(wb_in_ReadDataW), .ALUOutW(wb_in_ALUOutW),
-  .WriteRegW(wb_in_WriteRegW), .WriteRegW_out(hazard_in_WriteRegW), .ResultW(decode_in_write_from_wb), .WriteRegW_out_toRegisters(decode_in_write_register),
+  .WriteRegW(wb_in_WriteRegW), .instruction_in(wb_in_instruction), .syscall_in(wb_in_syscall),
+  .a0(wb_in_a0), .v0(wb_in_v0), .WriteRegW_out(hazard_in_WriteRegW), .ResultW(decode_in_write_from_wb), .WriteRegW_out_toRegisters(decode_in_write_register),
   .ResultW_forwarded(execute_in_ForwardMemVal));
 
   //hazard module declaration

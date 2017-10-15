@@ -33,8 +33,6 @@ module memory(
   input wire MemToRegM,
   input wire MemWriteM,
   input wire [31:0] instruction,
-  input wire [31:0] v0,
-  input wire [31:0] a0,
   input wire [31:0] ALUOutM,
   input wire [31:0] WriteDataM,
   input wire [4:0] WriteRegM,
@@ -44,11 +42,12 @@ module memory(
   output wire [4:0] WriteRegM_out,
   output wire [4:0] WriteRegM_out_hazard,
   output wire [31:0] ALUOutW,
-  output reg [31:0] ALUOut_forwarded
+  output reg [31:0] ALUOut_forwarded,
+  output wire [31:0] instruction_out,
+  output wire syscall_out
   );
 
   data_memory my_data_memory(MemWriteM, ALUOutM, WriteDataM, RD);
-  system_call my_sys_call(syscall, instruction, v0, a0);
 
   assign WriteRegM_out = WriteRegM ;
   assign WriteRegM_out_hazard = WriteRegM ;
@@ -56,6 +55,8 @@ module memory(
   assign MemtoRegM_out = MemToRegM;
   assign syscall_out = syscall;
   assign RegWriteW = RegWriteM;
+  assign instruction_out = instruction;
+  assign syscall_out = syscall;
 
   always @(*)
     ALUOut_forwarded <= ALUOutM;
