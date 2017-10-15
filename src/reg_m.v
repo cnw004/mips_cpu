@@ -36,7 +36,7 @@ module reg_m(input wire clk,
   input wire [31:0] in6,
   input wire [4:0] in7,
   input wire [31:0] in10, //instruction
-  input wire [4:0] RdE,
+  input wire [4:0] RsE,
   output reg out1,
   output reg out2,
   output reg out3,
@@ -47,7 +47,8 @@ module reg_m(input wire clk,
   output reg [31:0] out10, //instruction);
   output reg out11,
   output reg out12,
-  output reg [4:0] RdM);
+  output reg [4:0] RsM,
+  output reg hazard_in_MemWriteM);
 
 
   initial begin
@@ -61,7 +62,8 @@ module reg_m(input wire clk,
     out10 <= 0;
     out11 <= 0;
     out12 <= 0;
-    RdM <= 0;
+    RsM <= 0;
+    hazard_in_MemWriteM <= 0;
   end
 
   always @(posedge clk) begin
@@ -75,7 +77,8 @@ module reg_m(input wire clk,
     out10 <= in10;
     out11 <= in3;
     out12 <= in2;
-    RdM <= RdE;
+    RsM <= RsE;
+    hazard_in_MemWriteM <= in4;
   end
 
 

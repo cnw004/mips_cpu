@@ -36,7 +36,7 @@ module hazard(
   input wire [4:0] RtD,
   input wire [4:0] RsE,
   input wire [4:0] RtE,
-  input wire [4:0] RdM,
+  input wire [4:0] RsM,
   input wire MemToRegE,
   input wire RegWriteE,
   input wire [4:0] WriteRegE,
@@ -45,6 +45,7 @@ module hazard(
   input wire RegWriteM,
   input wire [4:0] WriteRegW,
   input wire RegWriteW,
+  input wire MemWriteM,
   output reg StallF,
   output reg StallD,
   output reg ForwardAD,
@@ -109,7 +110,7 @@ always @(*) begin
   FlushE <= (branchStall || lwStall);
 
   //handle M->M forwards
-  ForwardMM <= ((RdM != `zero) && RdM == WriteRegW && RegWriteW);
+  ForwardMM <= ((RsM != `zero) && (RsM == WriteRegW) && RegWriteW && MemWriteM);
 
 
 
