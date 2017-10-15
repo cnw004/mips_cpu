@@ -19,13 +19,18 @@ module writeback(
    input wire MemToRegW,
    input wire [31:0] ReadDataW,
    input wire [31:0] ALUOutW,
+   input wire [31:0] a0,
+   input wire [31:0] v0,
    input wire [4:0] WriteRegW,
+   input wire [31:0] instruction_in,
+   input wire syscall_in,
    output wire [4:0] WriteRegW_out,
    output wire [31:0] ResultW,
    output reg [31:0] ResultW_forwarded,
    output reg [4:0] WriteRegW_out_toRegisters
    );
 
+   system_call my_sys_call(syscall_in, instruction_in, v0, a0);
    mux my_mux(MemToRegW, ALUOutW, ReadDataW, ResultW);
 
    assign WriteRegW_out = WriteRegW;
