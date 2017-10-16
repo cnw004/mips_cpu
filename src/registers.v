@@ -82,7 +82,6 @@ always @(*) begin
      if(reg_write == 1) begin
         reg_mem[write_reg] <= write_data;
       end
-    end
 
     // #1;
     read1 <= reg_mem[reg1];
