@@ -41,7 +41,7 @@ module instruction_memory(
       for(i = 32'h100000; i < 32'h101000; i = i + 1) begin
         memory[i] = 32'd0; //set all values to 0 initially
       end
-      $readmemh("add_test.v", memory);
+      $readmemh("jump.v", memory);
       set = 1;
 
     end

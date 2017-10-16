@@ -11,6 +11,7 @@ inputs:
   - reg2: second register to work with
   - write_reg: register to be written to if reg_write is 1
   - write_data: data to write to the reg if reg_write is 1
+  - jal_address: data to write into jal if jal is 1
 
 outputs:
   - read1: data read from register1
@@ -26,6 +27,7 @@ module registers(input wire clk, //assume passing in negation of the rest of the
   input wire [20:16] reg2,
   input wire [4:0] write_reg,
   input wire [31:0] write_data,
+  input wire [31:0] jal_address,
   output reg [31:0] read1,
   output reg [31:0] read2,
   output reg [31:0] v0,
@@ -74,11 +76,10 @@ module registers(input wire clk, //assume passing in negation of the rest of the
 always @(*) begin
     #5;
     if(jal == 1) begin
-      reg_mem[31] <= write_data; //31 is $ra
+      reg_mem[`ra] <= jal_address; //31 is $ra
     end
     //otherwise, check if reg_write is activated and write to it.
-    else begin
-      if(reg_write == 1) begin
+     if(reg_write == 1) begin
         reg_mem[write_reg] <= write_data;
       end
     end

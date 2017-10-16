@@ -57,13 +57,13 @@ module control(
     regDst <= (opcode == `SPECIAL); //any R-Type instruction
 
     //jump
-    jump <= (opcode == `J || opcode == `JAL || opcode == `JR) ? 1 : 0;
+    jump <= (opcode == `J || opcode == `SPECIAL && funcCode == `JAL || opcode == `SPECIAL && funcCode == `JR) ? 1 : 0;
 
     //jumpAndLink
-    jal <= (opcode == `JAL) ? 1 : 0;
+    jal <= (opcode == `SPECIAL && funcCode == `JAL ) ? 1 : 0;
 
     //jump - register
-    jumpRegister <= (opcode == `JR);
+    jumpRegister <= (opcode == `SPECIAL && funcCode == `JR);
 
     //branch
     branch <= (opcode == `BEQ || opcode == `BNE) ? 1 : 0;

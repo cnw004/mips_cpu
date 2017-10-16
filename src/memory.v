@@ -36,6 +36,8 @@ module memory(
   input wire [31:0] ALUOutM,
   input wire [31:0] WriteDataM,
   input wire [4:0] WriteRegM,
+  input wire ForwardMM,
+  input wire [31:0] ResultW,
   output wire RegWriteW,
   output wire MemtoRegM_out,
   output wire [31:0] RD,
@@ -47,7 +49,9 @@ module memory(
   output wire syscall_out
   );
 
-  data_memory my_data_memory(MemWriteM, ALUOutM, WriteDataM, RD);
+  wire [31:0] WriteDataMuxOut;
+  data_memory my_data_memory(MemWriteM, ALUOutM, WriteDataMuxOut, RD);
+  mux forwardMM_mux(ForwardMM, WriteDataM, ResultW, WriteDataMuxOut);
 
   assign WriteRegM_out = WriteRegM ;
   assign WriteRegM_out_hazard = WriteRegM ;

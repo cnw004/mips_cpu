@@ -27,7 +27,8 @@ module writeback(
    output wire [4:0] WriteRegW_out,
    output wire [31:0] ResultW,
    output reg [31:0] ResultW_forwarded,
-   output reg [4:0] WriteRegW_out_toRegisters
+   output reg [4:0] WriteRegW_out_toRegisters,
+   output reg [31:0] ResultW_forwardedMM
    );
 
    system_call my_sys_call(syscall_in, instruction_in, v0, a0);
@@ -38,6 +39,7 @@ module writeback(
         begin
         WriteRegW_out_toRegisters <= WriteRegW;
         ResultW_forwarded <= ResultW;
+        ResultW_forwardedMM <= ResultW;
         end
     initial begin
         ResultW_forwarded <= 32'b0;
