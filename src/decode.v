@@ -103,11 +103,12 @@ module decode(
    wire [31:0] 	     jal_address; // possible branch address
    //instantiating and wiring together modules
    control controller(instrD[31:26], instrD[5:0], out6, out16, jal, out17, out18, memRead, out3, out4, out13, out5, out2, out1);
-   registers regs(~clk, jal, regWriteW, instrD[25:21], instrD[20:16], write_register, write_data, out7, out8, out1c, out1b);
+   registers regs(~clk, jal, regWriteW, instrD[25:21], instrD[20:16], write_register, write_data, jal_address, out7, out8, out1c, out1b);
    sign_extend signs(instrD[15:0], out12);
    adder add_for_branch(out12 << 2, pc_plus_4_decoded, out14);
    adder add_for_jal(pc_plus_4_decoded, 32'd4, jal_address);
-   mux write_mux(jal, write_from_wb, jal_address, write_data);
+   //simply passing another value into registers to handle jal writeback
+   // mux write_mux(jal, write_from_wb, jal_address, write_data);
    mux rd1_mux(forwardAD, out7, alu_out, equalD_rs_input);
    mux rd2_mux(forwardBD, out8, alu_out, equalD_rt_input);
    equals branch_logic(equalD_rs_input, equalD_rt_input, equals_output);
@@ -121,9 +122,9 @@ module decode(
    assign out22 = instrD[20:16];
    assign out10 = instrD[20:16];
    assign out11 = instrD[15:11];
-   assign out20 = (instrD[25:0] << 2) + pc_plus_4_decoded;
+   assign out20 = {pc_plus_4_decoded[31:28], (instrD[25:0]), 2'h0};
    assign out1a = instrD;
-   assign out19 = regs.reg_mem[`ra];
+   assign out19 = regs.reg_mem[out7]; //out7 = JR address
    assign out15a = out15;
 
 
