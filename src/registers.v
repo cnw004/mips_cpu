@@ -46,6 +46,7 @@ module registers(input wire clk, //assume passing in negation of the rest of the
     for(i = 0; i < 32; i = i + 1) begin
       reg_mem[i] = 32'd0; //set all values to 0 initially
     end
+    reg_mem[`sp] = 32'h7FFFFFFC;
   end
 
 //   always @(posedge clk) begin
