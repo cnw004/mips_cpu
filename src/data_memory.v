@@ -11,7 +11,7 @@ outputs:
 */
 
 module data_memory(
-  input wire mem_write,
+  input wire 	    mem_write,
   input wire [31:0] address,
   input wire [31:0] write_data,
   output reg [31:0] read_data);
@@ -21,20 +21,30 @@ module data_memory(
   initial begin
     read_data <= 0;
     for(i = 32'h7FFF0000; i < 32'h7FFFFFFC; i = i + 1) begin
-      data_mem[i] = 32'd0; //set all values to 0 initially
+      data_mem[i] <= 0; //set all values to 0 initially
+       
     end
   end
 
   //declare the memory
-  reg [31:0] data_mem [32'h7FFF0000:32'h7FFFFFFC]; //not entirely sure this is correct
+  reg [31:0] data_mem [32'h7FFF0000:32'h7FFFFFFC]; //general memory range 
 
   //always read / write when channges happen.
-  always @(mem_write, address)
+  always @(mem_write, address, read_data)
     begin
-      if(mem_write == 1)
-        data_mem[address] <= write_data;
-      else
-        read_data <= data_mem[address];
+       if(mem_write == 1)
+	 begin	    
+	    $display(" in mem_write");
+	    data_mem[address] <= write_data;
+	 end
+       if(mem_write == 0)
+	 begin      
+	    $display(" in mem read with address %x", address);
+	    if(address < 32'h70000000)
+	      read_data <= 0;
+	    else
+	      read_data <= data_mem[address];
+	 end 
     end
 
 endmodule
