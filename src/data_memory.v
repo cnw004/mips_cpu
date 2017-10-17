@@ -22,29 +22,29 @@ module data_memory(
     read_data <= 0;
     for(i = 32'h7FFF0000; i < 32'h7FFFFFFC; i = i + 1) begin
       data_mem[i] <= 0; //set all values to 0 initially
-       
+
     end
   end
 
   //declare the memory
-  reg [31:0] data_mem [32'h7FFF0000:32'h7FFFFFFC]; //general memory range 
+  reg [31:0] data_mem [32'h7FFF0000:32'h7FFFFFFC]; //general memory range
 
   //always read / write when channges happen.
   always @(mem_write, address, read_data)
     begin
        if(mem_write == 1)
-	 begin	    
-	    $display(" in mem_write");
+	 begin
+	    //$display(" in mem_write");
 	    data_mem[address] <= write_data;
 	 end
        if(mem_write == 0)
-	 begin      
-	    $display(" in mem read with address %x", address);
+	 begin
+	    //$display(" in mem read with address %x", address);
 	    if(address < 32'h70000000)
 	      read_data <= 0;
 	    else
 	      read_data <= data_mem[address];
-	 end 
+	 end
     end
 
 endmodule

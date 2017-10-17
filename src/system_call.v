@@ -6,6 +6,10 @@ inputs:
   - instruction: use to determine funccode and also statistical stuff
   - v0: decides what kind of syscall to perform
   - a0: value to be printed by the print syscall
+
+outputs:
+  - string_index: the index to print at
+  - print_string: should we print?
 */
 
 module system_call(
@@ -20,8 +24,9 @@ integer num_instructions = 0;
 realtime time_var = 0.0;
 initial begin
 	$timeformat(-3, 2, "ms", 10);
-	time_var = $realtime;
+	time_var <= $realtime;
 end
+
 
   always @ (posedge syscall_control) begin
 	clk_counter = clk_counter + 1;
@@ -33,16 +38,12 @@ end
         32'd1: $display("a0 is: %d", a0);
         //if v0 is 10 then the syscall is an exit
         32'd10: $finish;
-			// $display("EXIT");
-			// $display("Showing statistics...");
-			// $display("------------------");
-			// $display("Clock cycles %d", clk_counter);
-			// $display("num instructions: %d", num_instructions);
-			// $display("IPC: %d", num_instructions/clk_counter);
-			// $display("Program ran in %t", $realtime);
+
+        32'd4: $display("CHOO CHOO MOTHERFUCKER!!!");
 
         default: $display("DEFAULT CASE IN SYSTEM_CALL");
       endcase
+
     end
   end
 
