@@ -26,7 +26,6 @@ module reg_w(input wire clk,
   input wire [31:0] in4,
   input wire [31:0] in5,
   input wire [4:0] in6,
-  //start here!!!
   input wire [31:0] instruction_in,
   input wire syscall_in,
   output reg out2,
