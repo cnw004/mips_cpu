@@ -29,6 +29,8 @@ module alu(
       3'b001: result <= read_data1 | read_data2;
       //add
       3'b010: result <= read_data1 + read_data2;
+      //lui
+      3'b011: result <= read_data2 << 16;
       //sub
       3'b110: result <= read_data1 - read_data2;
       //shift left

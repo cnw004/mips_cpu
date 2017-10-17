@@ -1,10 +1,10 @@
 //-*-mode:verilog-*--------------------------------------------------------
-//  
+//
 //  Copyright (c) 1999 Cornell University
 //  Computer Systems Laboratory
 //  Cornell University, Ithaca, NY 14853
 //  All Rights Reserved
-//  
+//
 //  Permission to use, copy, modify, and distribute this software
 //  and its documentation for any purpose and without fee is hereby
 //  granted, provided that the above copyright notice appear in all
@@ -13,9 +13,9 @@
 //  provided "as is" without express or implied warranty. Export of this
 //  software outside of the United States of America may require an
 //  export license.
-//  
+//
 //  $Id: mips.h,v 1.4 1999/08/21 00:49:20 rajit Exp $
-//  
+//
 //-------------------------------------------------------------------------
 
 // Clock parameters
@@ -321,6 +321,7 @@
 `define ALU_AND 			4'b0000
 `define ALU_OR  			4'b0001
 `define ALU_add				4'b0010
+`define ALU_lui             4'b0011
 `define ALU_sub 			4'b0110
 `define ALU_slt 			4'b0111
 `define ALU_NOR 			4'b1100

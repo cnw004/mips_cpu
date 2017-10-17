@@ -57,10 +57,10 @@ module control(
     regDst <= (opcode == `SPECIAL); //any R-Type instruction
 
     //jump
-    jump <= (opcode == `J || opcode == `SPECIAL && funcCode == `JAL || opcode == `SPECIAL && funcCode == `JR) ? 1 : 0;
+    jump <= (opcode == `J || opcode == `JAL  || opcode == `SPECIAL && funcCode == `JR) ? 1 : 0;
 
     //jumpAndLink
-    jal <= (opcode == `SPECIAL && funcCode == `JAL ) ? 1 : 0;
+    jal <= (opcode == `JAL ) ? 1 : 0;
 
     //jump - register
     jumpRegister <= (opcode == `SPECIAL && funcCode == `JR);
@@ -82,14 +82,16 @@ module control(
              opcode == `ADDIU ||
               opcode == `ORI  ||
               opcode == `LW   ||
-              opcode == `SW);
+              opcode == `SW   ||
+              opcode == `LUI);
 
     //regWrite
     regWrite <= (opcode == `SPECIAL || //any R-Type
                 opcode == `ADDI ||
                 opcode == `ADDIU ||
                 opcode == `ORI ||
-                opcode == `LW);
+                opcode == `LW ||
+                opcode == `LUI);
 
     //syscall
     syscall <= ( opcode == 0 && funcCode == 6'hc ) ? 1 : 0;
@@ -123,6 +125,8 @@ module control(
         aluOp <= `ALU_add;
     else if((opcode == `SPECIAL && funcCode == `SUB) || opcode == `BEQ || opcode == `BNE)
         aluOp <= `ALU_sub;
+    else if(opcode == `LUI)
+        aluOp <= 3;
     else
         aluOp <= `ALU_slt; //default case
   end

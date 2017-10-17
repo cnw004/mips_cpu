@@ -25,12 +25,16 @@ module instruction_memory(
   integer i;
 
   //for printing strings
-  // always @(print_string) begin
-  //   if(print_string == 1) begin
-  //     $display("printing at %s", memory[32'h100000 + string_index]);
-  //   end
-  // end
+  always @(print_string) begin
+    if(print_string == 1) begin
+      $display("printing at %h", (string_index) >> 2);
 
+
+
+    end
+  end
+
+ 
   //change into a word address
   always @(addr)
     begin
