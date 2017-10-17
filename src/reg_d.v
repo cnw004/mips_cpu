@@ -21,18 +21,18 @@ module reg_d(
   output reg [31:0] out1,
   output reg [31:0] out2);
 
-
   initial begin
     out1 <= 0;
     out2 <= 0;
   end
 
-  //at negedge clk, pass value through
+  //at posedge clk, pass value through(if enable)
   always @(posedge clk) begin
-    if(clr) begin
+    if(clr) begin //clr means stall
       out1 <= 0;
       out2 <= 0;
     end
+    
     if(enable) begin
       out1 <= in1;
       out2 <= in2;

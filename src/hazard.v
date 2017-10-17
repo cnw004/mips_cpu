@@ -29,6 +29,7 @@ outputs:
   - ForwardAE: M->E & E->E forward for register Rs
   - ForwardBE: M->E & E->E forward for register Rt
 */
+
 module hazard(
   input wire clk,
   input wire branchD,

@@ -1,5 +1,6 @@
 /*
  This module wires together everything in the fetch stage, as well as jump/branch multiplexors.
+
  inputs:
    jump: jump control signal
    jump_reg: jump register control signal
@@ -9,14 +10,17 @@
    jump_addr: the address if j or jal
    enable: value of not stallF control signal from the hazard unit
    clk:  The clock
+
  outputs:
    instr: The instruction read from memory - should get wired into reg_d.v
    pc_plus_4:  The PC incremented by 4 (next pc count) - should get wired into the pc generating mux, as well as another adder
+
  modules included:
    adder.v
    reg_f.v
    instruction_memory.v
  */
+
 module fetch(
    input wire 	     jump,
    input wire 	     jump_reg,
@@ -38,19 +42,15 @@ module fetch(
    wire [31:0] if_jump; // address to jump to if jumping
    wire [31:0] jump_or_not; // jump address or pc+4
    wire [31:0] pc; // address result of jump/branch muxes
-   // wire [31:0] instr_internal;
    wire [31:0] pc_plus_4_internal;
 
    initial begin
-      //instr <= 0;
-      // pc <= 32'h00400020;
       pc_plus_4 <= 32'h00400020;
    end
 
 
    always @(*) begin
       pc_plus_4 <= pc_plus_4_internal;
-    //   instr <= instr_internal;
    end
 
    //instantiating and wiring together modules
@@ -59,7 +59,6 @@ module fetch(
    mux jump_mux(jump, pc_plus_4_internal, if_jump, jump_or_not);
    mux next_pc(branch, jump_or_not, branch_addr, pc);
    reg_f so_fetch(clk, enable, pc,pc_f);
-
    instruction_memory instr_mem(pc_f, string_index, print_string, instr);
 
 endmodule

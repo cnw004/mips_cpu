@@ -10,6 +10,7 @@ inputs:
 outputs:
   - out: either input_00, input_01, input_10 depending on ctrl
 */
+
 module mux3(
   input wire [1:0] ctrl,
   input wire [SIZE:0] input_00,

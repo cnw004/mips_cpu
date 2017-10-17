@@ -7,6 +7,7 @@ inputs:
 outputs:
   - equal_inputs: output depending on input_0 == input_1
 */
+
 module equals(
   input wire [SIZE:0] input_0,
   input wire [SIZE:0] input_1,

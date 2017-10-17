@@ -8,6 +8,7 @@ inputs:
 output:
   - adder_out: in1 + in2
 */
+
 module adder(
   input wire [31:0] in1,
   input wire [31:0] in2,

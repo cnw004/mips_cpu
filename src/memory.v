@@ -27,6 +27,7 @@
  modules included:
    data_memory.v
  */
+
 module memory(
   input wire syscall,
   input wire RegWriteM,
@@ -49,10 +50,14 @@ module memory(
   output wire syscall_out
   );
 
+  //internal wire
   wire [31:0] WriteDataMuxOut;
+
+  //internal module connections
   data_memory my_data_memory(MemWriteM, ALUOutM, WriteDataMuxOut, RD);
   mux forwardMM_mux(ForwardMM, WriteDataM, ResultW, WriteDataMuxOut);
 
+  //additional outputs
   assign WriteRegM_out = WriteRegM ;
   assign WriteRegM_out_hazard = WriteRegM ;
   assign ALUOutW = ALUOutM;

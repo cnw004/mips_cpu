@@ -20,6 +20,7 @@ outputs:
   - syscall:
 
 */
+
 module control(
   input wire [31:26] opcode,
   input wire [5:0] funcCode,
@@ -36,6 +37,7 @@ module control(
   output reg regWrite,
   output reg syscall);
 
+  //initialize
   initial begin
     regDst <= 0;
     jump <= 0;
@@ -95,26 +97,6 @@ module control(
 
     //syscall
     syscall <= ( opcode == 0 && funcCode == 6'hc ) ? 1 : 0;
-
-    // //R typ instructions
-    // if (opcode == 0)
-    //   case (funcCode)
-    //     6'h20: aluOp = 3'b010;
-    //     6'h22: aluOp = 3'b110;
-    //     6'h24: aluOp = 3'b000;
-    //     6'h25: aluOp = 3'b001;
-    //     6'h2a: aluOp = 3'b111;
-    //     default: aluOp = 3'b000;
-    //   endcase
-    //
-    // else
-    //   case (opcode)
-    //     6'h09: aluOp = 3'b010;
-    //     6'h0d: aluOp = 3'b001;
-    //     6'h23 || 6'h2b: aluOp = 3'b010;
-    //     6'h04 || 6'h05: aluOp = 3'b110;
-    //     default: aluOp = 3'b000;
-    //   endcase
 
     //Logic for ALUop output
     if (opcode == `SPECIAL && funcCode == `AND)

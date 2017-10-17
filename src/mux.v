@@ -9,6 +9,7 @@ inputs:
 outputs:
   - out: either input_zero or input_one depending on ctrl
 */
+
 module mux(
   input wire ctrl,
   input wire [SIZE:0] input_zero,

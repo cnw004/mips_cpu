@@ -8,6 +8,7 @@ inputs:
 outputs:
   - c: a & b
 */
+
 module and_gate(
   input wire a,
   input wire b,

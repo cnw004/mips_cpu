@@ -95,30 +95,32 @@ module decode(
    wire [31:0] 	     equalD_rs_input; // output from rd1 mux
    wire [31:0] 	     equalD_rt_input; // output from rd2 mux
    wire  	     equals_output; // output from the equals module.. branching logic
+
    //CONTROL SIGNALS
    wire 	     memRead;
    wire        jal;
+
    //from register
    wire [31:0] 	     v0; // the value in register v0 to be used  by syscall module
    wire [31:0] 	     a0; // the value in reg a0 to be used by syscall
+
    // from adder jal
    wire [31:0] 	     jal_address; // possible branch address
+
    //instantiating and wiring together modules
    control controller(instrD[31:26], instrD[5:0], out6, out16, jal, out17, out18, memRead, out3, out4, out13, out5, out2, out1);
    registers regs(~clk, jal, regWriteW, instrD[25:21], instrD[20:16], write_register, write_from_wb, jal_address, out7, out8, out1c, out1b, out1d);
    sign_extend signs(instrD[15:0], out12);
    adder add_for_branch(out12 << 2, pc_plus_4_decoded, out14);
    adder add_for_jal(pc_plus_4_decoded, 32'd4, jal_address);
+
    //simply passing another value into registers to handle jal writeback
-   // mux write_mux(jal, write_from_wb, jal_address, write_data);
    mux rd1_mux(forwardAD, out7, alu_out, equalD_rs_input);
    mux rd2_mux(forwardBD, out8, alu_out, equalD_rt_input);
    equals branch_logic(equalD_rs_input, equalD_rt_input, equals_output);
    and_gate branch_and(equals_output, out18, out15);
 
-   //shift 2
    //assign remaining  out wires
-
    assign out21 = instrD[25:21];
    assign out9 = instrD[25:21];
    assign out22 = instrD[20:16];
@@ -126,7 +128,7 @@ module decode(
    assign out11 = instrD[15:11];
    assign out20 = {pc_plus_4_decoded[31:28], (instrD[25:0]), 2'h0};
    assign out1a = instrD;
-   assign out19 = regs.reg_mem[out7]; //out7 = JR address
+   assign out19 = regs.reg_mem[out7];
    assign out15a = out15;
 
 

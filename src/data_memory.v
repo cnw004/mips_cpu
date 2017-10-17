@@ -30,21 +30,18 @@ module data_memory(
   reg [31:0] data_mem [32'h7FFF0000:32'h7FFFFFFC]; //general memory range
 
   //always read / write when channges happen.
-  always @(mem_write, address, read_data)
-    begin
+  always @(mem_write, address, read_data) begin
        if(mem_write == 1)
 	 begin
-	    //$display(" in mem_write");
 	    data_mem[address] <= write_data;
 	 end
        if(mem_write == 0)
 	 begin
-	    //$display(" in mem read with address %x", address);
 	    if(address < 32'h70000000)
 	      read_data <= 0;
 	    else
 	      read_data <= data_mem[address];
 	 end
-    end
+  end
 
 endmodule
