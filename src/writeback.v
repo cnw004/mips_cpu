@@ -34,16 +34,20 @@ module writeback(
    output wire print_string
    );
 
+   //Send back to decode: Call to print string out of instruction memory
    assign print_string = (v0 == 4);
+   //pass WriteReg_W back out
+   assign WriteRegW_out = WriteRegW;
+   //syscall declaration
    system_call my_sys_call(syscall_in, instruction_in, v0, a0, a1);
    mux my_mux(MemToRegW, ALUOutW, ReadDataW, ResultW);
-
-   assign WriteRegW_out = WriteRegW;
+ 
    always @(*)
         begin
         WriteRegW_out_toRegisters <= WriteRegW;
         ResultW_forwarded <= ResultW;
         ResultW_forwardedMM <= ResultW;
+        //a0 passes back through to decode.
         string_index <= a0;
         end
     initial begin

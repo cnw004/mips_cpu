@@ -24,8 +24,6 @@ module reg_f(
   always @(posedge clk) begin
     if(enable)
       out1 <= in1;
-  //  else
-    //  out1 <= 0;
   end
 
 endmodule
