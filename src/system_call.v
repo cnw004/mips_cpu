@@ -6,6 +6,7 @@ inputs:
   - instruction: use to determine funccode and also statistical stuff
   - v0: decides what kind of syscall to perform
   - a0: value to be printed by the print syscall
+  - a1: used for print string
 
 outputs:
   - string_index: the index to print at
@@ -16,7 +17,8 @@ module system_call(
   input wire syscall_control,
   input wire [31:0] instruction,
   input wire [31:0] v0,
-  input wire [31:0] a0);
+  input wire [31:0] a0,
+  input wire [31:0] a1);
 
 //for statistics
 integer clk_counter = 0;
@@ -41,7 +43,7 @@ end
 
         32'd4: begin
             $display("CHOO CHOO MOTHERFUCKER!!!");
-            // $write("%c", a1);
+            $write("%c", a1);
         end
 
         default: $display("DEFAULT CASE IN SYSTEM_CALL");

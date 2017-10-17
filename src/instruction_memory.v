@@ -21,17 +21,45 @@ module instruction_memory(
 
   //this will hold the word address
   reg [31:0] real_addr;
-  reg set;
+  // reg set;
   integer i;
+  reg [7:0] character = 0;
+  reg [31:0] stringIndexUpdate;
+  reg [31:0] stringWord;
 
-  //for printing strings
+  // for printing strings
   always @(print_string) begin
     if(print_string == 1) begin
-      $display("printing at %h", (string_index) >> 2);
-
-
-
+    //   $display("string index: %h", (string_index) >> 2);
+      character = 1; //something not zero to get through the while loop first time
+      stringIndexUpdate = string_index >> 2; //setup first string index and let it be modified
+      while (character != 0) begin //0 is the null terminator
+        // $display("character is: %d", character);
+        stringWord = memory[stringIndexUpdate];
+        // $display("character is: %c", character);
+        // $display("Word is: %h", stringIndexUpdate);
+        // $display("stringWord: %h", stringWord);
+        for (i = 3; i >= 0; i = i - 1) begin
+            // $display("i is: %d", i);
+            if (i == 0) begin
+                character = stringWord[31:24];
+            end
+            if (i == 1)
+                character = stringWord[23:16];
+            if (i == 2)
+                character = stringWord[15:8];
+            if (i == 3)
+                character = stringWord[7:0];
+            if (character == 0) begin
+                // $display("GAME OVER");
+            end
+            else $write("%c", character); //string should print here
+            // $display("character is: %c", character);
+        end
+        stringIndexUpdate = stringIndexUpdate + 1;
+      end
     end
+    $write("\n");
   end
 
 
