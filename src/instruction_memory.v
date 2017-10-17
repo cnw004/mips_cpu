@@ -34,20 +34,20 @@ module instruction_memory(
     end
   end
 
- 
+
   //change into a word address
   always @(addr)
     begin
         if(addr == 32'b0)
-          instruction <= 0;
+          instruction = 0;
         else begin
-          real_addr <= addr >> 2;
-          instruction <= memory[real_addr];
+          real_addr = addr >> 2;
+          instruction = memory[real_addr];
         end
-        if (set == 1) begin
-            instruction <= 0;
-            set <= 0;
-        end
+        // if (set == 1) begin
+        //     instruction <= 0;
+        //     set <= 0;
+        // end
     end
 
   //read instructions
@@ -57,7 +57,11 @@ module instruction_memory(
         memory[i] = 32'd0; //set all values to 0 initially
       end
       $readmemh("hello.v", memory);
-      set = 1;
+    //   set = 1;
+    //   real_addr = addr >> 2;
+    //   $display("VALUE OF ADDR: %h", addr);
+    //   $display("VALUE OF Real ADDR: %h", addr);
+    //   instruction = memory[real_addr];
 
     end
 

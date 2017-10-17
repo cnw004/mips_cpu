@@ -44,7 +44,7 @@ module fetch(
    initial begin
       //instr <= 0;
       // pc <= 32'h00400020;
-      pc_plus_4 <= 32'h0040002;
+      pc_plus_4 <= 32'h00400020;
    end
 
 

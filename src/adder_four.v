@@ -14,7 +14,8 @@ module adder_four(
   output reg [31:0] adder_out);
 
   initial begin
-    adder_out <= 32'h00400020;
+    // adder_out <= 32'h00400020;
+    adder_out <= 32'h00000000;
   end
 
   always @(in1)

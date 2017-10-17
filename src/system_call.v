@@ -39,7 +39,10 @@ end
         //if v0 is 10 then the syscall is an exit
         32'd10: $finish;
 
-        32'd4: $display("CHOO CHOO MOTHERFUCKER!!!");
+        32'd4: begin
+            $display("CHOO CHOO MOTHERFUCKER!!!");
+            // $write("%c", a1);
+        end
 
         default: $display("DEFAULT CASE IN SYSTEM_CALL");
       endcase
