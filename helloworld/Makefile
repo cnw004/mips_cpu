@@ -10,7 +10,7 @@ SREC=srec_cat
 # these are the flags we need for bare metal code generation
 CFLAGS=-mno-abicalls -fpic -nostdlib -static
 LDFLAGS=-L/usr/remote/mipsel/lib/gcc/mipsel-buildroot-linux-uclibc/4.6.3 -lgcc
-ASMSOURCE=puts.s start.s
+ASMSOURCE=start.s puts.s
 CSOURCE=hello.c
 
 ASMOBJ=$(ASMSOURCE:.s=.o)
