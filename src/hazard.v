@@ -1,4 +1,4 @@
-`include "../mips.h" //various defines
+//`include "../mips.h" //various defines
 
 /*
 parameterized 3 input mux module
