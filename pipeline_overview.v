@@ -15,6 +15,8 @@ module pipeline_overview();
   wire [31:0] fetch_in_jump_reg_adddr;
   wire [31:0] fetch_in_jump_addr;
   wire fetch_in_enable; // stallF
+  wire [31:0] fetch_in_string_index;
+  wire fetch_in_print_string;
 
   //inputs for decode register
   wire [31:0] decode_reg_in_instr; //in1
@@ -132,7 +134,8 @@ module pipeline_overview();
   .branch(fetch_in_branch),
   .branch_addr(fetch_in_branch_addr), .jump_reg_addr(fetch_in_jump_reg_adddr),
   .jump_addr(fetch_in_jump_addr),
-  .enable(fetch_in_enable), .clk(clock), .instr(decode_reg_in_instr),
+  .enable(fetch_in_enable), .clk(clock), .string_index(fetch_in_string_index), .print_string(fetch_in_print_string),
+  .instr(decode_reg_in_instr),
   .pc_plus_4(decode_reg_in_pc_plus_4));
 
   //decode register declaration\
@@ -193,7 +196,8 @@ module pipeline_overview();
   writeback wb_module(.MemToRegW(wb_in_MemToRegW), .ReadDataW(wb_in_ReadDataW), .ALUOutW(wb_in_ALUOutW),
   .WriteRegW(wb_in_WriteRegW), .instruction_in(wb_in_instruction), .syscall_in(wb_in_syscall),
   .a0(wb_in_a0), .v0(wb_in_v0), .WriteRegW_out(hazard_in_WriteRegW), .ResultW(decode_in_write_from_wb), .WriteRegW_out_toRegisters(decode_in_write_register),
-  .ResultW_forwarded(execute_in_ForwardMemVal), .ResultW_forwardedMM(memory_in_resultW));
+  .ResultW_forwarded(execute_in_ForwardMemVal), .ResultW_forwardedMM(memory_in_resultW),
+  .string_index(fetch_in_string_index), .print_string(fetch_in_print_string));
 
   //hazard module declaration
   hazard hazard_module(.clk(clock), .branchD(hazard_in_branchD), .RsD(hazard_in_RsD), .RtD(hazard_in_RtD),

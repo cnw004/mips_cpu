@@ -26,6 +26,8 @@ module fetch(
    input wire [31:0] jump_addr,
    input wire 	     enable,
    input wire 	     clk,
+   input wire [31:0] string_index,
+   input wire print_string,
    output wire [31:0] instr,
    output reg [31:0] pc_plus_4); // also gets used by jump_mux
 
@@ -58,6 +60,6 @@ module fetch(
    mux next_pc(branch, jump_or_not, branch_addr, pc);
    reg_f so_fetch(clk, enable, pc,pc_f);
 
-   instruction_memory instr_mem(pc_f, instr);
+   instruction_memory instr_mem(pc_f, string_index, print_string, instr);
 
 endmodule

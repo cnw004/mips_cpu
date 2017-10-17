@@ -28,9 +28,12 @@ module writeback(
    output wire [31:0] ResultW,
    output reg [31:0] ResultW_forwarded,
    output reg [4:0] WriteRegW_out_toRegisters,
-   output reg [31:0] ResultW_forwardedMM
+   output reg [31:0] ResultW_forwardedMM,
+   output reg [31:0] string_index,
+   output wire print_string
    );
 
+   assign print_string = (v0 == 4);
    system_call my_sys_call(syscall_in, instruction_in, v0, a0);
    mux my_mux(MemToRegW, ALUOutW, ReadDataW, ResultW);
 
@@ -40,9 +43,11 @@ module writeback(
         WriteRegW_out_toRegisters <= WriteRegW;
         ResultW_forwarded <= ResultW;
         ResultW_forwardedMM <= ResultW;
+        string_index <= a0;
         end
     initial begin
         ResultW_forwarded <= 32'b0;
         WriteRegW_out_toRegisters <= 32'b0;
+        string_index <= 0;
     end
 endmodule

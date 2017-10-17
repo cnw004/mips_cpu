@@ -3,6 +3,8 @@ module to act as instruction memory and set up instruction reads
 
 inputs:
   - addr: the address read in from reg_f.v
+  - string_index: if we are to print a string, this is the index to start at
+  - print_string: should we print a string?
 
 outputs:
   - instruction: instruction to be executed
@@ -10,6 +12,8 @@ outputs:
 
 module instruction_memory(
   input wire [31:0] addr,
+  input wire [31:0] string_index,
+  input wire print_string,
   output reg [31:0] instruction);
 
   //instantiate the memory
@@ -19,6 +23,13 @@ module instruction_memory(
   reg [31:0] real_addr;
   reg set;
   integer i;
+
+  //for printing strings
+  // always @(print_string) begin
+  //   if(print_string == 1) begin
+  //     $display("printing at %s", memory[32'h100000 + string_index]);
+  //   end
+  // end
 
   //change into a word address
   always @(addr)
