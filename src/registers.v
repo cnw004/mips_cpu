@@ -89,7 +89,7 @@ always @(*) begin
     v0 <= reg_mem[`v0];
     a0 <= reg_mem[`a0];
 
-    $display("t0 value: %d\tt1 value: %d\ta0 value: %d\tv0 value: %d\t\n", reg_mem[`t0], reg_mem[`t1], reg_mem[`a0], reg_mem[`v0]);
+    $display("$ra value: %d\ta0 value: %d\tv0 value: %d\t\n", reg_mem[`ra], reg_mem[`a0], reg_mem[`v0]);
 
 end
 

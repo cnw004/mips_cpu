@@ -13,7 +13,7 @@ module instruction_memory(
   output reg [31:0] instruction);
 
   //instantiate the memory
-  reg [31:0] memory [32'h100000:32'h101000];
+  reg [31:0] memory [32'h100000:32'h401000]; //made this bigger (was 32'h101000)
 
   //this will hold the word address
   reg [31:0] real_addr;
@@ -41,7 +41,7 @@ module instruction_memory(
       for(i = 32'h100000; i < 32'h101000; i = i + 1) begin
         memory[i] = 32'd0; //set all values to 0 initially
       end
-      $readmemh("add_test.v", memory);
+      $readmemh("hello.v", memory);
       set = 1;
 
     end
