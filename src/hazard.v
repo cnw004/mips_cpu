@@ -79,7 +79,6 @@ initial begin
 end
 
 
-//should this be posedge or negedge??
 always @(*) begin
 
 //this is for M->E and E->E for the Rs register
