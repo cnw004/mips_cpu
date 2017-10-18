@@ -5,7 +5,6 @@ src/alu.v
 src/hazard.v
 src/adder.v
 src/reg_f.v
-src/adder_four.v
 src/decode.v
 src/reg_d.v
 src/reg_w.v
