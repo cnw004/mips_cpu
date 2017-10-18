@@ -13,7 +13,7 @@
  - `./`: The parent directory. This holds our README.md (so it shows on our github page), our wired together processor, and some supporting files needed to compile said processor. This folder also contains the script `run` which is used to compile and run our processor.
 
 ## Compilation and Execution
-To run and compile, navigate to the main directory and run `./run`. This compiles our processor to a file called `output` and then runs `output`.
+To run and compile, navigate to the main directory and run `./run`. This compiles our processor to a file called `output` and then runs `output`. Right now our processor is set to run hello.v. If you wish to run a different file on our processor, navigate into src/instruction_memory and change the filename in `readmemh(<filename>, memory);` to the name of the file you wish to pull instruction from. To ensure this fully works the .v file that you are feeding into `readmemh` must be in the parent directory.
 
 ## Block Diagrams
 
