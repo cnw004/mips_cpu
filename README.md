@@ -9,6 +9,8 @@
  ## Directory Structure
  - `src/`: Holds all of our module files that need to be included for the processor to be compiled
  - `docs/`: Holds team contract and work plan as well as any supporting documentation not found as comments in the modules.
+ - `test/`: Holds all of our files used to test our processor. This includes our unit test benches as well as tests such as hello.v, jump.v, and add_test.v that were crucial parts of testing our processor.
+ - `./`: The parent directory. This holds our README.md (so it shows on our github page), our wired together processor, and some supporting files needed to compile said processor. This folder also contains the script `run` which is used to compile and run our processor.
 
 ## Compilation and Execution
 To run and compile, navigate to the main directory and run `./run`. This compiles our processor to a file called `output` and then runs `output`.
