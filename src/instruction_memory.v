@@ -1,6 +1,8 @@
 /*
 module to act as instruction memory and set up instruction reads
 
+module also handles printing strings from memory
+
 inputs:
   - addr: the address read in from reg_f.v
   - string_index: if we are to print a string, this is the index to start at
@@ -30,7 +32,6 @@ module instruction_memory(
   // for printing strings
   always @(print_string) begin
     if(print_string == 1) begin
-    //   $display("string index: %h", (string_index) >> 2);
       character = 1; //something not zero to get through the while loop first time
       stringIndexUpdate = string_index >> 2; //setup first string index and let it be modified
       while (character != 0) begin //0 is the null terminator
@@ -63,7 +64,7 @@ module instruction_memory(
   end
 
 
-  //change into a word address
+  //retrieve instruction from memory
   always @(addr)
     begin
         if(addr == 32'b0)
@@ -72,10 +73,6 @@ module instruction_memory(
           real_addr = addr >> 2;
           instruction = memory[real_addr];
         end
-        // if (set == 1) begin
-        //     instruction <= 0;
-        //     set <= 0;
-        // end
     end
 
   //read instructions
