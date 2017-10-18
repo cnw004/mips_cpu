@@ -15,14 +15,15 @@ To run and compile, navigate to the main directory and run `./run`. This compile
 
 ## Block Diagrams
 
-### Overview
-
+### Top Level
+![alt text](https://github.com/cnw004/mips_cpu/blob/feature/whitley/update-readme/img/overview.png "Top Level")
 
 ### Syscall
+![alt text](https://github.com/cnw004/mips_cpu/blob/feature/whitley/update-readme/img/syscall.png "Syscall")
 
 
 ### Forward Mem to Mem
-
+![alt text](https://github.com/cnw004/mips_cpu/blob/feature/whitley/update-readme/img/forwardMM.png "Forward Mem to Mem")
 
 
 ## Design Features
