@@ -32,7 +32,7 @@ When implementing helloworld we decided that we would need to handle the printin
 ### Test Benches
 We utilized small test benches (almost like unit tests) to test some of our individual modules. This allowed us to ensure that each individual module was working properly before we stitched them all together into one large system. These tests were written mainly for modules that we had to alter or modules that we found to be more error prone than others. Some modules were taken from our last project and had already been tested, so individual test benches were not written for these.
 
-### GTKWave
+### GTKWave 
 GTKWave was heavily leveraged in the testing of our system. After putting all of the pieces together, we decided to run add_test in order to test our system. We began by running add_test and following the instructions through our pipeline. By analyzing GTKWave we were able to see where and when instructions went amok. This allowed us to fix our processor and get it to a working state before adding in additional functionality for helloworld and other programs.
 
 In the case of helloworld we heavily leveraged GTKWave to let us know which signals were getting confused or crossed. This allowed us to isolate modules where errors occurred, greatly speeding up the debugging process.
