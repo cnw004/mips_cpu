@@ -141,28 +141,28 @@ module pipeline_overview();
 
   //decode register declaration\
   reg_d reg_d_module(.clk(clock), .enable(decode_reg_in_enable), .clr(decode_reg_in_clr),
-  .in1(decode_reg_in_instr), .in2(decode_reg_in_pc_plus_4), .out1(decode_in_instrD), .out2(decode_in_pc_plus_4));
+  .instruction_in(decode_reg_in_instr), .pc_plus_4_in(decode_reg_in_pc_plus_4), .pc_out(decode_in_instrD), .pc_plus_4_out(decode_in_pc_plus_4));
 
   //decode declaration
   decode decode_module(.clk(clock),
   .pc_plus_4_decoded(decode_in_pc_plus_4), .instrD(decode_in_instrD), .write_from_wb(decode_in_write_from_wb),
   .alu_out(decode_in_alu_out), .forwardAD(decode_in_forwardAD), .forwardBD(decode_in_forwardBD), .regWriteW(decode_in_regWriteW), .write_register(decode_in_write_register),
-  .out1(execute_reg_in_syscall), .out1a(execute_reg_in_instruction), .out1b(wb_in_a0), .out1c(wb_in_v0),
-  .out1d(wb_in_a1), .out2(execute_reg_in_reg_write), .out3(execute_reg_in_mem_to_reg), .out4(execute_reg_in_alu_ctrl),
-  .out5(execute_reg_in_alu_src), .out6(execute_reg_in_reg_dst), .out7(execute_reg_in_rd1), .out8(execute_reg_in_rd2),
-  .out9(execute_reg_in_rsD), .out10(execute_reg_in_rtD), .out11(execute_reg_in_rdE), .out12(execute_reg_in_sign_immediate),
-  .out13(execute_reg_in_mem_write), .out14(fetch_in_branch_addr), .out15(fetch_in_branch), .out15a(decode_reg_in_clr), .out16(fetch_in_jump),
-  .out17(fetch_in_jump_reg), .out18(hazard_in_branchD), .out19(fetch_in_jump_reg_adddr), .out20(fetch_in_jump_addr),
-  .out21(hazard_in_RsD), .out22(hazard_in_RtD));
+  .syscall_out(execute_reg_in_syscall), .syscall_instr_out(execute_reg_in_instruction), .a0_out(wb_in_a0), .v0_out(wb_in_v0),
+  .a1_out(wb_in_a1), .regWrite_out(execute_reg_in_reg_write), .mem_to_reg_out(execute_reg_in_mem_to_reg), .alu_ctrl_out(execute_reg_in_alu_ctrl),
+  .alu_src_out(execute_reg_in_alu_src), .reg_dst_out(execute_reg_in_reg_dst), .rd1_out(execute_reg_in_rd1), .rd2_out(execute_reg_in_rd2),
+  .rsd_out(execute_reg_in_rsD), .rtd_out(execute_reg_in_rtD), .rde_out(execute_reg_in_rdE), .sign_immd_out(execute_reg_in_sign_immediate),
+  .mem_write_out(execute_reg_in_mem_write), .branch_addr_out(fetch_in_branch_addr), .pc_src_out(fetch_in_branch), .pc_src_to_decode_out(decode_reg_in_clr), .jump_control_out(fetch_in_jump),
+  .jr_control_out(fetch_in_jump_reg), .branch_d_out(hazard_in_branchD), .jump_reg_addr_out(fetch_in_jump_reg_adddr), .jump_addr_out(fetch_in_jump_addr),
+  .rsd_hazard_out(hazard_in_RsD), .rtd_hazard_out(hazard_in_RtD));
 
   //execute register declaration
-  reg_e reg_e_module(.clk(clock), .clr(execute_reg_in_clr), .in1(execute_reg_in_syscall), .in2(execute_reg_in_reg_write),
-  .in3(execute_reg_in_mem_to_reg), .in4(execute_reg_in_alu_ctrl), .in5(execute_reg_in_alu_src), .in6(execute_reg_in_reg_dst),
-  .in7(execute_reg_in_rd1), .in8(execute_reg_in_rd2), .in9(execute_reg_in_rsD), .in10(execute_reg_in_rtD), .in11(execute_reg_in_rdE),
-  .in12(execute_reg_in_sign_immediate), .in13(execute_reg_in_mem_write), .in16(execute_reg_in_instruction), .out1(memory_reg_in_syscall), .out2(memory_reg_in_reg_write), .out3(memory_reg_in_mem_to_reg),
-  .out4(execute_in_ALUControlE), .out5(execute_in_ALUSrcE), .out6(execute_in_RegDstE), .out7(execute_in_reg1), .out8(execute_in_reg2),
-  .out9(execute_in_RsE), .out10(execute_in_RtE), .out11(execute_in_RdE), .out12(execute_in_SignImmE), .out13(memory_reg_in_mem_write),
-  .out16(memory_reg_in_instruction), .out17(hazard_in_MemtoRegE), .out18(hazard_in_RegWriteE));
+  reg_e reg_e_module(.clk(clock), .clr(execute_reg_in_clr), .syscall_in(execute_reg_in_syscall), .regwrite_in(execute_reg_in_reg_write),
+  .mem_to_reg_in(execute_reg_in_mem_to_reg), .alu_ctrl_in(execute_reg_in_alu_ctrl), .alu_src_in(execute_reg_in_alu_src), .reg_dst_in(execute_reg_in_reg_dst),
+  .rd1_in(execute_reg_in_rd1), .rd2_in(execute_reg_in_rd2), .rsd_in(execute_reg_in_rsD), .rtd_in(execute_reg_in_rtD), .rte_in(execute_reg_in_rdE),
+  .sign_immd_in(execute_reg_in_sign_immediate), .mem_write_in(execute_reg_in_mem_write), .instr_in(execute_reg_in_instruction), .syscall_out(memory_reg_in_syscall), .reg_write_out(memory_reg_in_reg_write), .mem_to_reg_out(memory_reg_in_mem_to_reg),
+  .alu_ctrl_out(execute_in_ALUControlE), .alu_src_out(execute_in_ALUSrcE), .reg_dst_out(execute_in_RegDstE), .rd1_out(execute_in_reg1), .rd2_out(execute_in_reg2),
+  .rse_out(execute_in_RsE), .rte_out(execute_in_RtE), .rde_out(execute_in_RdE), .sign_immd_out(execute_in_SignImmE), .mem_write_out(memory_reg_in_mem_write),
+  .instr_out(memory_reg_in_instruction), .mem_to_reg_hazard_out(hazard_in_MemtoRegE), .reg_write_hazard_out(hazard_in_RegWriteE));
 
   //execute register declaration
   execute execute_module(.ALUControlE(execute_in_ALUControlE), .ALUSrcE(execute_in_ALUSrcE), .RegDstE(execute_in_RegDstE),
@@ -172,12 +172,12 @@ module pipeline_overview();
   .WriteDataE(memory_reg_in_WriteDataE), .WriteRegE(memory_reg_in_WriteRegE), .Hazard_WriteRegE(hazard_in_WriteRegE));
 
   //memory register module declaration
-  reg_m reg_m_module(.clk(clock), .in1(memory_reg_in_syscall), .in2(memory_reg_in_reg_write),
-  .in3(memory_reg_in_mem_to_reg), .in4(memory_reg_in_mem_write), .in5(memory_reg_in_ALUOutput),
-  .in6(memory_reg_in_WriteDataE), .in7(memory_reg_in_WriteRegE),
-  .in10(memory_reg_in_instruction), .RtE(execute_in_RtE), .out1(memory_in_syscall), .out2(memory_in_RegWriteM), .out3(memory_in_MemToRegM),
-  .out4(memory_in_MemWriteM), .out5(decode_in_alu_out), .out6(memory_in_WritedataM), .out7(memory_in_WriteRegM),
-  .out10(memory_in_instruction), .out11(hazard_in_MemtoRegM), .out12(hazard_in_RegWriteM), .RtM(hazard_in_RtM), .hazard_in_MemWriteM(hazard_in_MemWriteM));
+  reg_m reg_m_module(.clk(clock), .syscall_in(memory_reg_in_syscall), .regwrite_in(memory_reg_in_reg_write),
+  .mem_to_reg_in(memory_reg_in_mem_to_reg), .mem_write_in(memory_reg_in_mem_write), .alu_output_in(memory_reg_in_ALUOutput),
+  .write_data_in(memory_reg_in_WriteDataE), .write_reg_in(memory_reg_in_WriteRegE),
+  .instr_in(memory_reg_in_instruction), .RtE(execute_in_RtE), .syscall_out(memory_in_syscall), .regwrite_out(memory_in_RegWriteM), .mem_to_reg_out(memory_in_MemToRegM),
+  .mem_write_out(memory_in_MemWriteM), .alu_output_out(decode_in_alu_out), .write_data_out(memory_in_WritedataM), .write_reg_out(memory_in_WriteRegM),
+  .instr_out(memory_in_instruction), .mem_to_reg_hazard_out(hazard_in_MemtoRegM), .regwrite_m_hazard_out(hazard_in_RegWriteM), .RtM(hazard_in_RtM), .hazard_in_MemWriteM(hazard_in_MemWriteM));
 
   //memory module declaration
   memory memory_module(.syscall(memory_in_syscall), .RegWriteM(memory_in_RegWriteM), .MemToRegM(memory_in_MemToRegM),
@@ -187,10 +187,10 @@ module pipeline_overview();
   .ALUOut_forwarded(execute_in_ForwardExecVal), .instruction_out(wb_reg_in_instruction), .syscall_out(wb_reg_in_syscall));
 
   //writeback register module declaration
-  reg_w reg_w_module(.clk(clock), .in2(wb_reg_in_RegWriteW), .in3(wb_reg_in_MemtoRegM_out), .in4(wb_reg_in_RD),
-  .in5(wb_reg_in_ALUOut), .in6(wb_reg_in_WriteRegM_out), .instruction_in(wb_reg_in_instruction), .syscall_in(wb_reg_in_syscall),
-   .out2(decode_in_regWriteW), .out3(wb_in_MemToRegW), .out4(wb_in_ReadDataW),
-  .out5(wb_in_ALUOutW), .out6(wb_in_WriteRegW), .out7(hazard_in_RegWriteW), .instruction_out(wb_in_instruction),
+  reg_w reg_w_module(.clk(clock), .regwrite_in(wb_reg_in_RegWriteW), .mem_to_reg_in(wb_reg_in_MemtoRegM_out), .rd_data_mem_in(wb_reg_in_RD),
+  .ALU_outM_in(wb_reg_in_ALUOut), .write_regM_in(wb_reg_in_WriteRegM_out), .instruction_in(wb_reg_in_instruction), .syscall_in(wb_reg_in_syscall),
+   .regwrite_out(decode_in_regWriteW), .mem_to_reg_out(wb_in_MemToRegW), .read_data_w_out(wb_in_ReadDataW),
+  .ALU_out_w_out(wb_in_ALUOutW), .write_regW_out(wb_in_WriteRegW), .regwrite_hazard_out(hazard_in_RegWriteW), .instruction_out(wb_in_instruction),
   .syscall_out(wb_in_syscall));
 
   //writeback module declaration
@@ -208,20 +208,11 @@ module pipeline_overview();
   .StallF(fetch_in_enable), .StallD(decode_reg_in_enable), .ForwardAD(decode_in_forwardAD), .ForwardBD(decode_in_forwardBD),
   .FlushE(execute_reg_in_clr), .ForwardAE(execute_in_ForwardAE), .ForwardBE(execute_in_ForwardBE), .ForwardMM(memory_in_ForwardMM));
 
-
-
-
-
     //clock logic
   always
     begin
       #10; clock = ~clock; // inline clock generator that the rest of the mips uses
-      //$monitor("Syscall is %x", memory_in_syscall);
     end
-
-    //todo: Go through ALL register modules and ensure clear is good and passing through values is good.
-    //todo: #2: Handle OUTPUTS to HAZARDS!!!!!!!!!!!!!!!!!! Starting at FlushE
-
 
   //set up some nice gtkwave stuff
   initial begin
