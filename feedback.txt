@@ -1,0 +1,30 @@
+- Cole Whitley
+- Jason Corriveau
+- Sienna Mosher
+- Andrew Capuano
+
+team contract and work plan: 10 points.
+10
+
+weekly team status reports: 10 points (total). All members meet at regular meeting time and contribute to the progress report.
+10
+
+design: 10 points. Modular, logical, concise, module parameters used, etc.
+10
+
+documentation: 10 points. Readme sufficiently explains the design (including needed module diagrams), compilation, execution, and testing methodology. Code contains module-level comments and in-line comments where appropriate.
+10
+
+functionality: 30 points. 10 points for hello world, 10 points for Fibonacci, 10 points for Dhrystone/your own program. You get points if your CPU can execute the program (and you demonstrate the output is correct!).
+15, hello (10) no Fib or program 3? unit tests (5)
+
+forwarding: 10 points The CPU implements EX-EX, MEM-EX, and MEM-MEM forwarding.
+10
+
+hazards: 10 points. The CPU stalls appropriately to avoid hazards when forwarding is not possible.
+10
+
+presentation: 10 points. The group clearly presents their design. Including design choices, architecture, and testing. Use this presentation rubric to guide your preparation.
+9
+
+Total: 79
